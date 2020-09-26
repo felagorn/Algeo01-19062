@@ -1,6 +1,6 @@
 package flib;
 
-import java.util.Arrays;
+// import java.util.Arrays;
 
 public class Matrix {
     public double[][] DF;
@@ -42,43 +42,31 @@ public class Matrix {
         DF[rowID][colID] = elementVal;
     }
 
+    public void PasteDFFrom(Matrix anotherSmallerMatrix) {
+        if ((ROWCOUNT >= anotherSmallerMatrix.ROWCOUNT) && (COLCOUNT >= anotherSmallerMatrix.COLCOUNT)) {
+            this.DF = anotherSmallerMatrix.DF;
+        }
+        else {
+            System.out.println("ERROR: Paste failed. Destination matrix too small.");
+        }
+    }
+
     /* Print */
 
     public void PrintMatrix() {
-        for (double[] rows : DF) {
+        /*for (double[] rows : DF) {
             System.out.println(Arrays.toString(rows));
-        }
-        /* Currently bugged: kita pakai fungsi bawaan java saja.
-        int iInitial = GetFirstRowID();
+        }*/
         int iFinal = GetLastRowID();
-        for (int i = iInitial; i <= iFinal; i += 1) {   
-            if (i == iInitial) {
-                System.out.printf("|-");
-            }
-            else if (i == iFinal) {
-                System.out.printf("|-");
-            }
-            else {
-                System.out.printf("|");
-            }
+        for (int i = GetFirstRowID(); i <= iFinal; i += 1) {
             int jFinal = GetLastColID();
             for (int j = GetFirstColID(); j <= jFinal; j += 1) {
-                System.out.printf(" %f", GetElement(i, j));
-            }
-            if (i == iInitial) {
-                System.out.printf(" -|");
-            }
-            else if (i == iFinal) {
-                System.out.printf(" -|");
-            }
-            else {
-                System.out.printf(" |");
+                System.out.printf("%10.3f", GetElement(i, j));
             }
             if (i != iFinal) {
                 System.out.println();
             }
         }
-        */
     }
 
     /* Basic Operations */
