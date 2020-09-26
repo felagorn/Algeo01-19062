@@ -284,7 +284,9 @@ public class Matrix {
                     this.OBE_SwapRow(currentRow, i);
                 }
             }
-            currentRow += 1;
+            else {
+                currentRow += 1;
+            }
         }
     }
 
@@ -296,10 +298,10 @@ public class Matrix {
     }
 
     public void Convert_RowEchelon() {
-        this.UpperTriangularSelectionSort();
         int finalRow = this.GetLastRowID();
         int i;
         for (int currentRow = this.GetFirstRowID(); currentRow <= finalRow; currentRow += 1) {
+            this.UpperTriangularSelectionSort();
             this.OBE_ScaleRow_LeadingOne(currentRow);
             int j = this.GetLeadingValue_Row_ColID(currentRow);
             i = currentRow + 1;
