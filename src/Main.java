@@ -4,23 +4,23 @@ public class Main {
 
     public static void main(String[] args) {
         Matrix matrix = new Matrix(4, 5);
-        matrix.DF = new double[][] { {8,-9,1,-8,80},
-                                     {0,-1,5,4,7},
-                                     {-2,-1,-3,8,-30},
-                                     {-2,-8,-1,2,18} };
+        matrix.DF = new double[][] { {1, 2, 3, 4, 5},
+                                     {3, 6, 3, 6, 8},
+                                     {1, 2, 3, 4, 6},
+                                     {0, 4, 2, 3, 5} };
         System.out.println("Matriks awal:");
         matrix.PrintMatrix();
         System.out.printf("\n\n");
+        System.out.println("Matriks disort:");
         matrix.UpperTriangularSelectionSort();
-        System.out.println("Matriks setelah disort:");
         matrix.PrintMatrix();
         System.out.printf("\n\n");
+        System.out.println("Matriks diubah ke dalam bentuk eselon baris:");
         matrix.Convert_RowEchelon();
-        System.out.println("Matriks setelah diubah ke dalam bentuk eselon baris:");
         matrix.PrintMatrix();
         System.out.printf("\n\n");
-        matrix.Convert_ReducedRowEchelon();
         System.out.println("Matriks setelah diubah ke dalam bentuk eselon baris tereduksi:");
+        matrix.Convert_ReducedRowEchelon();
         matrix.PrintMatrix();
         System.out.printf("\n\n");
         Matrix squarematrix = new Matrix(5, 5);
