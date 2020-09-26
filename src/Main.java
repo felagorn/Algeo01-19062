@@ -8,15 +8,19 @@ public class Main {
                                      {-3,-1,5,4,7},
                                      {-2,-1,-3,8,-30},
                                      {-2,-8,-1,2,18} };
+        System.out.println("Matriks awal:");
         matrix.PrintMatrix();
-        System.out.println();
+        System.out.printf("\n\n");
         matrix.UpperTriangularSelectionSort();
+        System.out.println("Matriks setelah disort:");
         matrix.PrintMatrix();
-        System.out.println();
+        System.out.printf("\n\n");
         matrix.Convert_RowEchelon();
+        System.out.println("Matriks setelah diubah ke dalam bentuk eselon baris:");
         matrix.PrintMatrix();
-        System.out.println();
+        System.out.printf("\n\n");
         matrix.Convert_ReducedRowEchelon();
+        System.out.println("Matriks setelah diubah ke dalam bentuk eselon baris tereduksi:");
         matrix.PrintMatrix();
         System.out.println();
     }
