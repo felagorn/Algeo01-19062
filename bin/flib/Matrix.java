@@ -53,26 +53,26 @@ public class Matrix {
         int iFinal = GetLastRowID();
         for (int i = iInitial; i <= iFinal; i += 1) {   
             if (i == iInitial) {
-                System.out.printf("|-");
+                System.out.printf("┌");
             }
             else if (i == iFinal) {
-                System.out.printf("|-");
+                System.out.printf("└");
             }
             else {
-                System.out.printf("|");
+                System.out.printf("│");
             }
             int jFinal = GetLastColID();
             for (int j = GetFirstColID(); j <= jFinal; j += 1) {
-                System.out.printf(" %f", GetElement(i, j));
+                System.out.printf(" %.3f", GetElement(i, j));
             }
             if (i == iInitial) {
-                System.out.printf(" -|");
+                System.out.printf(" ┐");
             }
             else if (i == iFinal) {
-                System.out.printf(" -|");
+                System.out.printf(" ┘");
             }
             else {
-                System.out.printf(" |");
+                System.out.printf(" │");
             }
             if (i != iFinal) {
                 System.out.println();
