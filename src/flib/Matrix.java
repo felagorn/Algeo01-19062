@@ -42,6 +42,15 @@ public class Matrix {
         DF[rowID][colID] = elementVal;
     }
 
+    public void PasteDFFrom(Matrix anotherSmallerMatrix) {
+        if ((ROWCOUNT >= anotherSmallerMatrix.ROWCOUNT) && (COLCOUNT >= anotherSmallerMatrix.COLCOUNT)) {
+            this.DF = anotherSmallerMatrix.DF;
+        }
+        else {
+            System.out.println("ERROR: Paste failed. Destination matrix too small.");
+        }
+    }
+
     /* Print */
 
     public void PrintMatrix() {
