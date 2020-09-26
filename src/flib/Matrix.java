@@ -7,13 +7,21 @@ public class Matrix {
     public int ROWCOUNT, COLCOUNT;
 
     public Matrix(int row, int col) {
-        DF = new double[row][col];
-        ROWCOUNT = row;
-        COLCOUNT = col;
+        this.DF = new double[row][col];
+        this.ROWCOUNT = row;
+        this.COLCOUNT = col;
     }
 
     /* Get, Set */
 
+    public int GetROWCOUNT() {
+        return this.ROWCOUNT;
+    }
+
+    public int GetCOLCOUNT() {
+        return this.COLCOUNT;
+    }
+    
     public int GetFirstRowID() {
         return 0;
     }
@@ -23,28 +31,41 @@ public class Matrix {
     }
 
     public int GetLastRowID() {
-        return (ROWCOUNT - 1);
+        return (this.GetROWCOUNT() - 1);
     }
 
     public int GetLastColID() {
-        return (COLCOUNT - 1);
+        return (this.GetCOLCOUNT() - 1);
     }
 
     public double GetElement(int rowID, int colID) {
-        return DF[rowID][colID];
+        return this.DF[rowID][colID];
     }
 
     public double[] GetRow(int rowID) {
-        return DF[rowID];
+        return this.DF[rowID];
     }
 
     public void SetElement(int rowID, int colID, double elementVal) {
-        DF[rowID][colID] = elementVal;
+        this.DF[rowID][colID] = elementVal;
     }
 
+    /*public void SetRow(int rowID, double[] rowVal) {
+        int jFinal = this.GetLastColID();
+        for (int j = this.GetFirstColID(); j <= jFinal; j += 1) {
+            this.SetElement(rowID, j, rowVal[j]);
+        }
+    }*/
+
     public void PasteDFFrom(Matrix anotherSmallerMatrix) {
-        if ((ROWCOUNT >= anotherSmallerMatrix.ROWCOUNT) && (COLCOUNT >= anotherSmallerMatrix.COLCOUNT)) {
-            this.DF = anotherSmallerMatrix.DF;
+        if ((this.GetROWCOUNT() >= anotherSmallerMatrix.GetROWCOUNT()) && (this.GetCOLCOUNT() >= anotherSmallerMatrix.GetCOLCOUNT())) {
+            int iFinal = anotherSmallerMatrix.GetLastRowID();
+            int jFinal = anotherSmallerMatrix.GetLastColID();
+            for (int i = anotherSmallerMatrix.GetFirstRowID(); i <= iFinal; i += 1) {
+                for (int j = anotherSmallerMatrix.GetFirstColID(); j <= jFinal; j += 1) {
+                    this.SetElement(i, j, anotherSmallerMatrix.GetElement(i, j));
+                }
+            }
         }
         else {
             System.out.println("ERROR: Paste failed. Destination matrix too small.");
@@ -57,11 +78,11 @@ public class Matrix {
         /*for (double[] rows : DF) {
             System.out.println(Arrays.toString(rows));
         }*/
-        int iFinal = GetLastRowID();
-        for (int i = GetFirstRowID(); i <= iFinal; i += 1) {
-            int jFinal = GetLastColID();
-            for (int j = GetFirstColID(); j <= jFinal; j += 1) {
-                System.out.printf("%10.3f", GetElement(i, j));
+        int iFinal = this.GetLastRowID();
+        for (int i = this.GetFirstRowID(); i <= iFinal; i += 1) {
+            int jFinal = this.GetLastColID();
+            for (int j = this.GetFirstColID(); j <= jFinal; j += 1) {
+                System.out.printf("%10.3f", this.GetElement(i, j));
             }
             if (i != iFinal) {
                 System.out.println();
@@ -73,7 +94,7 @@ public class Matrix {
 
     public boolean IsValidRowID(int rowID) {
         boolean isValid;
-        if ((rowID >= GetFirstRowID()) && (rowID <= GetLastRowID())) {
+        if ((rowID >= this.GetFirstRowID()) && (rowID <= this.GetLastRowID())) {
             isValid = true;
         }
         else {
@@ -84,7 +105,7 @@ public class Matrix {
 
     public boolean IsValidColID(int colID) {
         boolean isValid;
-        if ((colID >= GetFirstColID()) && (colID <= GetLastColID())) {
+        if ((colID >= this.GetFirstColID()) && (colID <= this.GetLastColID())) {
             isValid = true;
         }
         else {
@@ -94,11 +115,13 @@ public class Matrix {
     }
 
     public void OBE_SwapRow(int row1, int row2) {
-        if (IsValidRowID(row1) && IsValidRowID(row2)) {
+        if (this.IsValidRowID(row1) && this.IsValidRowID(row2)) {
             if (row1 != row2) {
-                double[] temp = GetRow(row1); // variabel pembantu swapping
-                DF[row1] = GetRow(row2);
-                DF[row2] = temp;
+                double[] temp = this.GetRow(row1); // variabel pembantu swapping
+                this.DF[row1] = this.GetRow(row2);
+                this.DF[row2] = temp;
+                // this.SetRow(row1, this.GetRow(row2));
+                // this.SetRow(row2, temp);
             }
         }
         else {
@@ -108,10 +131,10 @@ public class Matrix {
 
     public void OBE_SumRow(int row1, int row2, double k) {
         // Semua elemen di row1 ditambahkan dengan k kali setiap elemen di row2
-        if (IsValidRowID(row1) && IsValidRowID(row2)) {
-            int jFinal = GetLastColID();
-            for (int j = GetFirstColID(); j <= jFinal ; j += 1) {
-                DF[row1][j] += (k * GetElement(row2, j));
+        if (this.IsValidRowID(row1) && this.IsValidRowID(row2)) {
+            int jFinal = this.GetLastColID();
+            for (int j = this.GetFirstColID(); j <= jFinal ; j += 1) {
+                this.DF[row1][j] += (k * this.GetElement(row2, j));
             }
         }
         else {
@@ -120,10 +143,10 @@ public class Matrix {
     }
 
     public void OBE_ScaleRow(int row, double k) {
-        if (IsValidRowID(row)) {
-            int jFinal = GetLastColID();
-            for(int j = GetFirstColID(); j <= jFinal; j += 1) {
-                DF[row][j] *= k;
+        if (this.IsValidRowID(row)) {
+            int jFinal = this.GetLastColID();
+            for(int j = this.GetFirstColID(); j <= jFinal; j += 1) {
+                this.DF[row][j] *= k;
             }
         }
         else {
@@ -136,12 +159,12 @@ public class Matrix {
         // Bila input tidak valid, return -1
         // Bila semua elemen bernilai nol return COLCOUNT
         int j = -1;
-        if (IsValidRowID(row)) {
-            j = GetFirstColID();
-            int jFinal = GetLastColID();
+        if (this.IsValidRowID(row)) {
+            j = this.GetFirstColID();
+            int jFinal = this.GetLastColID();
             boolean isFound = false;
             while ((j <= jFinal) && !(isFound)) {
-                if (GetElement(row, j) != 0) {
+                if (this.GetElement(row, j) != 0) {
                     isFound = true;
                 }
                 else {
@@ -156,9 +179,9 @@ public class Matrix {
         //Mencari nilai baris tak nol pertama
         // bila seluruh baris adalah 0 akan di return 0
         double element = 0;
-        int j = GetLeadingValue_Row_ColID(row);
-        if (j != COLCOUNT) {
-            element = GetElement(row, j);
+        int j = this.GetLeadingValue_Row_ColID(row);
+        if (j != this.GetCOLCOUNT()) {
+            element = this.GetElement(row, j);
         }
         return element;
     }
@@ -168,12 +191,12 @@ public class Matrix {
         // bila input tidak valid, return -1
         //jika semua nilai di kolom bernilai 0 return ROWCOUNT
         int i = -1;
-        if (IsValidColID(col)) {
-            i = GetFirstRowID();
-            int iFinal = GetLastRowID();
+        if (this.IsValidColID(col)) {
+            i = this.GetFirstRowID();
+            int iFinal = this.GetLastRowID();
             boolean isFound = false;
             while ((i <= iFinal) && !(isFound)) {
-                if (GetElement(i, col) != 0) {
+                if (this.GetElement(i, col) != 0) {
                     isFound = true;
                 }
                 else {
@@ -185,13 +208,13 @@ public class Matrix {
     }
 
     public int GetLeadingValue_Col_RowID_Next(int col) {
-        int i = GetLeadingValue_Col_RowID(col);
-        if (i <= GetLastRowID()) {
+        int i = this.GetLeadingValue_Col_RowID(col);
+        if (i <= this.GetLastRowID()) {
             i += 1;
-            int iFinal = GetLastRowID();
+            int iFinal = this.GetLastRowID();
             boolean isFound = false;
             while ((i <= iFinal) && !(isFound)) {
-                if (GetElement(i, col) != 0) {
+                if (this.GetElement(i, col) != 0) {
                     isFound = true;
                 }
                 else {
@@ -208,14 +231,14 @@ public class Matrix {
         // bila input row tidak valid, return -2
         //jika semua nilai di kolom bernilai 0 return ROWCOUNT
         int i = -1;
-        if (IsValidColID(col)) {
+        if (this.IsValidColID(col)) {
             i = -2;
-            if (IsValidRowID(row)) {
+            if (this.IsValidRowID(row)) {
                 i = row;
-                int iFinal = GetLastRowID();
+                int iFinal = this.GetLastRowID();
                 boolean isFound = false;
                 while ((i <= iFinal) && !(isFound)) {
-                    if (GetElement(i, col) != 0) {
+                    if (this.GetElement(i, col) != 0) {
                         isFound = true;
                     }
                     else {
@@ -228,13 +251,13 @@ public class Matrix {
     }
 
     public int GetLeadingValue_Col_RowID_FromRow_Next(int col, int row) {
-        int i = GetLeadingValue_Col_RowID_FromRow(col, row);
-        if (i <= GetLastRowID()) {
+        int i = this.GetLeadingValue_Col_RowID_FromRow(col, row);
+        if (i <= this.GetLastRowID()) {
             i += 1;
-            int iFinal = GetLastRowID();
+            int iFinal = this.GetLastRowID();
             boolean isFound = false;
             while ((i <= iFinal) && !(isFound)) {
-                if (GetElement(i, col) != 0) {
+                if (this.GetElement(i, col) != 0) {
                     isFound = true;
                 }
                 else {
@@ -246,19 +269,19 @@ public class Matrix {
     }
 
     public void UpperTriangularSelectionSort() {
-        int j = GetFirstColID();
-        int jFinal = GetLastColID();
-        int currentRow = GetFirstRowID();
-        int finalRow = GetLastRowID();
+        int j = this.GetFirstColID();
+        int jFinal = this.GetLastColID();
+        int currentRow = this.GetFirstRowID();
+        int finalRow = this.GetLastRowID();
         int i;
         while ((currentRow <= finalRow) && (j <= jFinal)) {
-            i = GetLeadingValue_Col_RowID_FromRow(j, currentRow);
+            i = this.GetLeadingValue_Col_RowID_FromRow(j, currentRow);
             if (i != currentRow) {
-                if (i == ROWCOUNT) {
+                if (i == this.GetROWCOUNT()) {
                     j += 1;
                 }
                 else {
-                    OBE_SwapRow(currentRow, i);
+                    this.OBE_SwapRow(currentRow, i);
                 }
             }
             currentRow += 1;
@@ -266,25 +289,25 @@ public class Matrix {
     }
 
     public void OBE_ScaleRow_LeadingOne(int row) {
-        if (GetLeadingValue_Row_ColID(row) < COLCOUNT) {
-            double k = 1 / GetLeadingValue_Row_Element(row);
-            OBE_ScaleRow(row, k);
+        if (this.GetLeadingValue_Row_ColID(row) < this.GetCOLCOUNT()) {
+            double k = 1 / this.GetLeadingValue_Row_Element(row);
+            this.OBE_ScaleRow(row, k);
         }
     }
 
     public void Convert_RowEchelon() {
-        UpperTriangularSelectionSort();
-        int finalRow = GetLastRowID();
+        this.UpperTriangularSelectionSort();
+        int finalRow = this.GetLastRowID();
         int i;
-        for (int currentRow = GetFirstRowID(); currentRow <= finalRow; currentRow += 1) {
-            OBE_ScaleRow_LeadingOne(currentRow);
-            int j = GetLeadingValue_Row_ColID(currentRow);
+        for (int currentRow = this.GetFirstRowID(); currentRow <= finalRow; currentRow += 1) {
+            this.OBE_ScaleRow_LeadingOne(currentRow);
+            int j = this.GetLeadingValue_Row_ColID(currentRow);
             i = currentRow + 1;
-            while ((i <= finalRow) && (GetLeadingValue_Row_ColID(i) == GetLeadingValue_Row_ColID(currentRow))) {
-                OBE_SumRow(i, currentRow, (- GetElement(i, j)));
-                if (GetElement(i, j) < 0) {
+            while ((i <= finalRow) && (this.GetLeadingValue_Row_ColID(i) == this.GetLeadingValue_Row_ColID(currentRow))) {
+                this.OBE_SumRow(i, currentRow, (- this.GetElement(i, j)));
+                if (this.GetElement(i, j) < 0) {
                     System.out.println("Ini jalan");
-                    OBE_SumRow(i, i, (- GetElement(i, j)));
+                    this.OBE_SumRow(i, i, (- this.GetElement(i, j)));
                 }
                 i += 1;
             }
@@ -292,15 +315,38 @@ public class Matrix {
     }
 
     public void Convert_ReducedRowEchelon() {
-        Convert_RowEchelon();
-        int i = GetFirstRowID();
-        int iFinal = GetLastRowID();
-        while ((i <= iFinal) && (GetLeadingValue_Row_ColID(i) != COLCOUNT)) {
-            int j = GetLeadingValue_Row_ColID(i);
+        this.Convert_RowEchelon();
+        int i = this.GetFirstRowID();
+        int iFinal = this.GetLastRowID();
+        int jUndefined = this.GetCOLCOUNT();
+        while ((i <= iFinal) && (this.GetLeadingValue_Row_ColID(i) != jUndefined)) {
+            int j = this.GetLeadingValue_Row_ColID(i);
             for (int k = 0; k < i; k += 1) {
-                OBE_SumRow(k, i, (- GetElement(k, j)));
+                this.OBE_SumRow(k, i, (- this.GetElement(k, j)));
             }
             i += 1;
         }
+    }
+
+    public void Convert_Minor(int row, int col) {
+        Matrix minor = new Matrix((this.GetROWCOUNT() - 1), (this.GetCOLCOUNT() - 1));
+        int iFinal = this.GetLastRowID();
+        int jFinal = this.GetLastColID();
+        int iMinor = minor.GetFirstRowID();
+        for (int i = this.GetFirstRowID(); i <= iFinal; i += 1) {
+            int jMinor = minor.GetFirstColID();
+            for (int j = this.GetFirstColID(); j <= jFinal; j += 1) {
+                if ((i != row) && (j != col)) {
+                    minor.SetElement(iMinor, jMinor, this.GetElement(i, j));
+                    jMinor += 1;
+                }
+            }
+            if (i != row) {
+                iMinor += 1;
+            }
+        }
+        this.PasteDFFrom(minor);
+        this.ROWCOUNT = minor.GetROWCOUNT();
+        this.COLCOUNT = minor.GetCOLCOUNT();
     }
 }
