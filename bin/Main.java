@@ -13,11 +13,14 @@ public class Main {
         // matrix.Convert_RowEchelon();
         // matrix.PrintMatrix();
         // System.out.println();
-        // matrix.Convert_ReducedRowEchelon();
-        // matrix.PrintMatrix();
-        // System.out.println();
+
         matrix.makeAugmentedIdentity();
         matrix.PrintMatrix();
+        System.out.println();
+        matrix.Convert_ReducedRowEchelon();
+        matrix.PrintMatrix();
+        System.out.println();
+        matrix.PrintInverseOBE();
         System.out.println();
 
     }

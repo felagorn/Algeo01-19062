@@ -8,7 +8,7 @@ public class Matrix {
     public int ROWCOUNT, COLCOUNT;
 
     public Matrix(int row, int col) {
-        DF = new double[3][7];
+        DF = new double[100][100];
         ROWCOUNT = row;
         COLCOUNT = col;
     }
@@ -44,8 +44,15 @@ public class Matrix {
     }
 
     public void bacaMatriks() {
+        int row, col;
         // menerima input pengguna untuk mengisi array 2d isi
         Scanner scanner = new Scanner(System.in);
+        System.out.println("row:");
+        row = scanner.nextInt();
+        System.out.println("col:");
+        col = scanner.nextInt();
+        ROWCOUNT = row;
+        COLCOUNT = col;
         for (int i = 0; i <= GetLastRowID(); i++) {
             for (int j = 0; j <= GetLastColID(); j++) {
                 DF[i][j] = scanner.nextDouble();
@@ -56,20 +63,16 @@ public class Matrix {
     /* Print */
 
     public void PrintMatrix() {
-        for (double[] rows : DF) {
-            System.out.println(Arrays.toString(rows));
+        int iFinal = GetLastRowID();
+        for (int i = GetFirstRowID(); i <= iFinal; i += 1) {
+            int jFinal = GetLastColID();
+            for (int j = GetFirstColID(); j <= jFinal; j += 1) {
+                System.out.printf("%10.3f", GetElement(i, j));
+            }
+            if (i != iFinal) {
+                System.out.println();
+            }
         }
-        /*
-         * Currently bugged: kita pakai fungsi bawaan java saja. int iInitial =
-         * GetFirstRowID(); int iFinal = GetLastRowID(); for (int i = iInitial; i <=
-         * iFinal; i += 1) { if (i == iInitial) { System.out.printf("|-"); } else if (i
-         * == iFinal) { System.out.printf("|-"); } else { System.out.printf("|"); } int
-         * jFinal = GetLastColID(); for (int j = GetFirstColID(); j <= jFinal; j += 1) {
-         * System.out.printf(" %f", GetElement(i, j)); } if (i == iInitial) {
-         * System.out.printf(" -|"); } else if (i == iFinal) { System.out.printf(" -|");
-         * } else { System.out.printf(" |"); } if (i != iFinal) { System.out.println();
-         * } }
-         */
     }
 
     /* Basic Operations */
@@ -311,5 +314,52 @@ public class Matrix {
             }
 
         }
+        COLCOUNT = COLCOUNT * 2;
+    }
+
+    public boolean IsInverseOBEValid() {
+        int i, j, zero_sum;
+        boolean inverse;
+        inverse = true;
+        i = GetFirstRowID();
+        j = GetFirstColID();
+        zero_sum = 0;
+
+        while (i <= GetLastRowID() && inverse) {
+
+            while (j < COLCOUNT / 2 && inverse) {
+                if (GetElement(i, j) == 0) {
+                    zero_sum += 1;
+                }
+                if (zero_sum == COLCOUNT / 2) {
+                    inverse = false;
+                }
+                j += 1;
+
+            }
+            j = 0;
+            zero_sum = 0;
+            i += 1;
+        }
+
+        return inverse;
+    }
+
+    public void PrintInverseOBE() {
+        if (IsInverseOBEValid()) {
+            int iFinal = GetLastRowID();
+            for (int i = GetFirstRowID(); i <= iFinal; i += 1) {
+                int jFinal = GetLastColID();
+                for (int j = GetFirstColID() + COLCOUNT / 2; j <= jFinal; j += 1) {
+                    System.out.printf("%10.3f", GetElement(i, j));
+                }
+                if (i != iFinal) {
+                    System.out.println();
+                }
+            }
+        } else {
+            System.out.println("Matriks Singular");
+        }
+
     }
 }
