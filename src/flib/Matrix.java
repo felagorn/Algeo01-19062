@@ -26,7 +26,6 @@ public class Matrix {
     public int GetFirstRowID() {
         return 0;
     }
-
     public int GetFirstColID() {
         return 0;
     }
@@ -60,6 +59,7 @@ public class Matrix {
     public void PasteDFFrom(Matrix anotherSmallerMatrix) {
         if ((this.GetROWCOUNT() >= anotherSmallerMatrix.GetROWCOUNT())
                 && (this.GetCOLCOUNT() >= anotherSmallerMatrix.GetCOLCOUNT())) {
+
             int iFinal = anotherSmallerMatrix.GetLastRowID();
             int jFinal = anotherSmallerMatrix.GetLastColID();
             for (int i = anotherSmallerMatrix.GetFirstRowID(); i <= iFinal; i += 1) {
@@ -67,7 +67,9 @@ public class Matrix {
                     this.SetElement(i, j, anotherSmallerMatrix.GetElement(i, j));
                 }
             }
+
         } else {
+
             System.out.println("ERROR: Paste failed. Destination matrix too small.");
         }
     }
@@ -75,9 +77,11 @@ public class Matrix {
     /* Print */
 
     public void PrintMatrix() {
+
         /*
          * for (double[] rows : DF) { System.out.println(Arrays.toString(rows)); }
          */
+
         int iFinal = this.GetLastRowID();
         for (int i = this.GetFirstRowID(); i <= iFinal; i += 1) {
             int jFinal = this.GetLastColID();
@@ -96,7 +100,9 @@ public class Matrix {
         boolean isValid;
         if ((rowID >= this.GetFirstRowID()) && (rowID <= this.GetLastRowID())) {
             isValid = true;
+
         } else {
+
             isValid = false;
         }
         return isValid;
@@ -106,7 +112,9 @@ public class Matrix {
         boolean isValid;
         if ((colID >= this.GetFirstColID()) && (colID <= this.GetLastColID())) {
             isValid = true;
+
         } else {
+
             isValid = false;
         }
         return isValid;
@@ -121,7 +129,9 @@ public class Matrix {
                 // this.SetRow(row1, this.GetRow(row2));
                 // this.SetRow(row2, temp);
             }
+
         } else {
+
             System.out.println("ERROR: Row index out of bounds.");
         }
     }
@@ -130,10 +140,12 @@ public class Matrix {
         // Semua elemen di row1 ditambahkan dengan k kali setiap elemen di row2
         if (this.IsValidRowID(row1) && this.IsValidRowID(row2)) {
             int jFinal = this.GetLastColID();
+
             for (int j = this.GetFirstColID(); j <= jFinal; j += 1) {
                 this.DF[row1][j] += (k * this.GetElement(row2, j));
             }
         } else {
+
             System.out.println("ERROR: Row index out of bounds.");
         }
     }
@@ -141,10 +153,12 @@ public class Matrix {
     public void OBE_ScaleRow(int row, double k) {
         if (this.IsValidRowID(row)) {
             int jFinal = this.GetLastColID();
+
             for (int j = this.GetFirstColID(); j <= jFinal; j += 1) {
                 this.DF[row][j] *= k;
             }
         } else {
+
             System.out.println("ERROR: Row index out of bounds.");
         }
     }
@@ -161,7 +175,9 @@ public class Matrix {
             while ((j <= jFinal) && !(isFound)) {
                 if (this.GetElement(row, j) != 0) {
                     isFound = true;
+
                 } else {
+
                     j += 1;
                 }
             }
@@ -170,7 +186,9 @@ public class Matrix {
     }
 
     public double GetLeadingValue_Row_Element(int row) {
+
         // Mencari nilai baris tak nol pertama
+
         // bila seluruh baris adalah 0 akan di return 0
         double element = 0;
         int j = this.GetLeadingValue_Row_ColID(row);
@@ -181,10 +199,12 @@ public class Matrix {
     }
 
     public int GetLeadingValue_Col_RowID(int col) {
+
         // mencari nilai leading dari kolom col, me-return indeks baris dengan kolom tak
         // nol pertama dari row
         // bila input tidak valid, return -1
         // jika semua nilai di kolom bernilai 0 return ROWCOUNT
+
         int i = -1;
         if (this.IsValidColID(col)) {
             i = this.GetFirstRowID();
@@ -193,7 +213,9 @@ public class Matrix {
             while ((i <= iFinal) && !(isFound)) {
                 if (this.GetElement(i, col) != 0) {
                     isFound = true;
+
                 } else {
+
                     i += 1;
                 }
             }
@@ -210,7 +232,9 @@ public class Matrix {
             while ((i <= iFinal) && !(isFound)) {
                 if (this.GetElement(i, col) != 0) {
                     isFound = true;
+
                 } else {
+
                     i += 1;
                 }
             }
@@ -219,11 +243,13 @@ public class Matrix {
     }
 
     public int GetLeadingValue_Col_RowID_FromRow(int col, int row) {
+
         // mencari nilai leading dari kolom col, me-return indeks baris dengan kolom tak
         // nol pertama dari row
         // bila input col tidak valid, return -1
         // bila input row tidak valid, return -2
         // jika semua nilai di kolom bernilai 0 return ROWCOUNT
+
         int i = -1;
         if (this.IsValidColID(col)) {
             i = -2;
@@ -234,7 +260,9 @@ public class Matrix {
                 while ((i <= iFinal) && !(isFound)) {
                     if (this.GetElement(i, col) != 0) {
                         isFound = true;
+
                     } else {
+
                         i += 1;
                     }
                 }
@@ -252,7 +280,9 @@ public class Matrix {
             while ((i <= iFinal) && !(isFound)) {
                 if (this.GetElement(i, col) != 0) {
                     isFound = true;
+
                 } else {
+
                     i += 1;
                 }
             }
@@ -271,10 +301,12 @@ public class Matrix {
             if (i != currentRow) {
                 if (i == this.GetROWCOUNT()) {
                     j += 1;
+
                 } else {
                     this.OBE_SwapRow(currentRow, i);
                 }
             } else {
+
                 currentRow += 1;
             }
         }
@@ -295,12 +327,14 @@ public class Matrix {
             this.OBE_ScaleRow_LeadingOne(currentRow);
             int j = this.GetLeadingValue_Row_ColID(currentRow);
             i = currentRow + 1;
+
             while ((i <= finalRow)
                     && (this.GetLeadingValue_Row_ColID(i) == this.GetLeadingValue_Row_ColID(currentRow))) {
                 this.OBE_SumRow(i, currentRow, (-this.GetElement(i, j)));
                 if (this.GetElement(i, j) < 0) {
                     System.out.println("Ini jalan");
                     this.OBE_SumRow(i, i, (-this.GetElement(i, j)));
+
                 }
                 i += 1;
             }
@@ -315,7 +349,9 @@ public class Matrix {
         while ((i <= iFinal) && (this.GetLeadingValue_Row_ColID(i) != jUndefined)) {
             int j = this.GetLeadingValue_Row_ColID(i);
             for (int k = 0; k < i; k += 1) {
+
                 this.OBE_SumRow(k, i, (-this.GetElement(k, j)));
+
             }
             i += 1;
         }
@@ -343,6 +379,7 @@ public class Matrix {
         this.COLCOUNT = minor.GetCOLCOUNT();
     }
 
+
     public void bacaMatriks() {
         int row, col;
         // menerima input pengguna untuk mengisi array 2d isi
@@ -360,4 +397,5 @@ public class Matrix {
         }
 
     }
+
 }
