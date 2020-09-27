@@ -3,9 +3,10 @@ import flib.*;
 public class Main {
 
     public static void main(String[] args) {
-        Matrix matrix = new Matrix(4, 5);
+        Matrix matrix = new Matrix(0,0);
+        matrix = Matrix.readFromTxt("C:\\Users\\ASUS ROG GL503G\\Algeo01-19062\\test\\isi.txt");
 
-        matrix.DF = new double[][] { { 1, 2, 3, 4, 5 }, { 3, 6, 3, 6, 8 }, { 1, 2, 3, 4, 6 }, { 0, 4, 2, 3, 5 } };
+
         System.out.println("Matriks awal:");
         matrix.PrintMatrix();
         System.out.printf("\n\n");

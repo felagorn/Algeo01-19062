@@ -2,6 +2,9 @@ package flib;
 
 import java.util.Scanner;
 // import java.util.Arrays;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class Matrix {
     public double[][] DF;
@@ -56,6 +59,8 @@ public class Matrix {
      * { this.SetElement(rowID, j, rowVal[j]); } }
      */
 
+    
+
     public void PasteDFFrom(Matrix anotherSmallerMatrix) {
         if ((this.GetROWCOUNT() >= anotherSmallerMatrix.GetROWCOUNT())
                 && (this.GetCOLCOUNT() >= anotherSmallerMatrix.GetCOLCOUNT())) {
@@ -73,7 +78,56 @@ public class Matrix {
             System.out.println("ERROR: Paste failed. Destination matrix too small.");
         }
     }
+    /* Read From txt File */
+    public static Matrix readFromTxt(String path){
+        Matrix M = new Matrix(0,0);
+        M.COLCOUNT=0;
+        M.ROWCOUNT=0;
+        File f = new File(path);
+            ArrayList<ArrayList<Double>> arrayList2D = new ArrayList<ArrayList<Double>>();
+            try {
+                Scanner rowScanner = new Scanner(f);
+                int row = -1;
+                while (rowScanner.hasNext()) {
+                    row += 1;
+                    arrayList2D.add(new ArrayList<Double>());
+                    String line = rowScanner.nextLine();
+                    Scanner scanValue = new Scanner(line);
+                    scanValue.useDelimiter(" ");
+                    while (scanValue.hasNext()){
+                        double value = scanValue.nextDouble();
+                        arrayList2D.get(row).add(value);
+                    }
+                    scanValue.close();
+                }
+                rowScanner.close();
+  
 
+                if (row!=-1){
+                    int rowCount = arrayList2D.size();
+                    int columnCount = arrayList2D.get(0).size();
+                    M = new Matrix(rowCount, columnCount);
+                    M.ROWCOUNT = rowCount;
+                    M.COLCOUNT = columnCount;
+                    for(int i=0;i<rowCount;i++){
+                        for(int j=0;j<columnCount;j++){
+                            M.SetElement(i, j,  arrayList2D.get(i).get(j));
+                        }
+                    }
+
+
+                } else{
+                    System.out.println("File Kosong");
+                }
+
+
+                //arrayList2D sudah terisi penuh dari file
+            } catch (FileNotFoundException e) {
+                System.out.println("Error: File not Found");
+            } finally{
+                return M;
+            }
+        }
     /* Print */
 
     public void PrintMatrix() {
@@ -395,7 +449,7 @@ public class Matrix {
                 DF[i][j] = scanner.nextDouble();
             }
         }
-
+        scanner.close();
     }
 
 }
