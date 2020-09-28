@@ -3,23 +3,36 @@ import flib.*;
 public class Main {
 
     public static void main(String[] args) {
-        // Matrix matrix = new Matrix(0,0);
-        // matrix = Matrix.readFromTxt("C:\\Users\\ASUS ROG GL503G\\Algeo01-19062\\test\\isi.txt");
+        //readFromTxt test
+        System.out.println("Coba readTxt:\n");
+        Matrix matrix = Matrix.readFromTxt("C:\\Users\\ASUS ROG GL503G\\Algeo01-19062\\test\\isi.txt");
+        matrix.PrintMatrix();
+        System.out.println("\n");
         
+        //Interpolation test
+        System.out.println("Coba interpolasi:\n");
         Matrix manual = new Matrix(3,2);
         manual.DF = new double[][] {    {8.0, 2.0794}, 
                                         {9.0, 2.1972}, 
                                         {9.5, 2.2513}};
         manual.PrintMatrix();
-        //Interpolation test
         System.out.println("\n");
+        
+        
+        
         interpolation i = new interpolation();
         Matrix interpolated = i.makeMatrixForInterpolation(manual);
         interpolated.PrintMatrix();
+        System.out.println("\n");
         double x = i.interpolationResult(manual, 9.2);
         System.out.println("\n");
         System.out.println(x);
+        System.out.println("\n");
 
+        //Matriks Hilbert
+        System.out.println("Coba hilbert:\n");
+        Matrix M1 = Matrix.makeHilbertAugmented(6);
+        M1.PrintMatrix();;
 
         // System.out.println("Matriks awal:");
         // matrix.PrintMatrix();

@@ -78,11 +78,10 @@ public class Matrix {
             System.out.println("ERROR: Paste failed. Destination matrix too small.");
         }
     }
+
     /* Read From txt File */
-    public static Matrix readFromTxt(String path){
+    public static Matrix readFromTxt(String path){ 
         Matrix M = new Matrix(0,0);
-        M.COLCOUNT=0;
-        M.ROWCOUNT=0;
         File f = new File(path);
             ArrayList<ArrayList<Double>> arrayList2D = new ArrayList<ArrayList<Double>>();
             try {
@@ -97,11 +96,12 @@ public class Matrix {
                     while (scanValue.hasNext()){
                         double value = scanValue.nextDouble();
                         arrayList2D.get(row).add(value);
+                        
                     }
                     scanValue.close();
                 }
                 rowScanner.close();
-  
+                
 
                 if (row!=-1){
                     int rowCount = arrayList2D.size();
@@ -450,6 +450,27 @@ public class Matrix {
             }
         }
         scanner.close();
+    }
+
+    public static Matrix makeHilbertAugmented(int N){
+        Matrix hilbertAugmented = new Matrix(N,N+1);
+        double x;
+        for (int i=0;i<N;i++){
+            for (int j=0;j<=N;j++){
+                if (j == N){
+                    if (i == 0){
+                        hilbertAugmented.SetElement(i, j, 1);
+                    }else{
+                        hilbertAugmented.SetElement(i, j, 0);
+                    }
+                } else{
+                    hilbertAugmented.SetElement(i, j, (double)1/(i+j+1));
+                }
+                
+            }
+        }
+
+        return hilbertAugmented;
     }
 
 }
