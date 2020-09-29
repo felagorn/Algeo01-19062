@@ -1,6 +1,9 @@
 package flib;
 
+import java.lang.Math;
+
 public class Inverse {
+
     public Inverse() {
     };
 
@@ -67,6 +70,74 @@ public class Inverse {
             }
         } else {
             System.out.println("Matriks Singular");
+        }
+
+    }
+
+    public Matrix MakeCoFactorMatrix(Matrix matrix) {
+
+        Matrix CoFactorMatrix = new Matrix((matrix.GetROWCOUNT()), (matrix.GetCOLCOUNT()));
+        double Det, sign;
+        for (int i = 0; i <= matrix.GetLastRowID(); i++) {
+
+            for (int j = 0; j <= matrix.GetLastColID(); j++) {
+                Matrix minor = new Matrix((matrix.GetROWCOUNT()), (matrix.GetCOLCOUNT()));
+                minor.PasteDFFrom(matrix);
+                minor.Convert_Minor(i, j);
+
+                Determinant X = new Determinant();
+                sign = Math.pow(-1, i + j);
+
+                Det = X.GetDeterminant(minor);
+                CoFactorMatrix.SetElement(i, j, Det * sign);
+
+            }
+
+        }
+        return CoFactorMatrix;
+    }
+
+    public Matrix Transpose(Matrix matrix) {
+
+        Matrix TransposeMatrix = new Matrix((matrix.GetROWCOUNT()), (matrix.GetCOLCOUNT()));
+        for (int i = 0; i <= matrix.GetLastRowID(); i++) {
+            for (int j = 0; j <= matrix.GetLastColID(); j++) {
+                TransposeMatrix.SetElement(i, j, matrix.GetElement(j, i));
+
+            }
+
+        }
+        return TransposeMatrix;
+    }
+
+    public Matrix InverseAdjoint(Matrix matrix) {
+        Matrix InverseAdjointMatrix;
+        double Det;
+        Determinant X = new Determinant();
+        Det = X.GetDeterminant(matrix);
+        InverseAdjointMatrix = Transpose(MakeCoFactorMatrix(matrix));
+
+        for (int i = 0; i <= matrix.GetLastRowID(); i++) {
+            for (int j = 0; j <= matrix.GetLastColID(); j++) {
+                InverseAdjointMatrix.SetElement(i, j, InverseAdjointMatrix.GetElement(i, j) / Det);
+
+            }
+
+        }
+        return InverseAdjointMatrix;
+    }
+
+    public void PrintInverseAdjoint(Matrix matrix) {
+        Matrix InverseAdjointMatrix;
+        double Det;
+
+        Determinant X = new Determinant();
+        Det = X.GetDeterminant(matrix);
+        if (Det == 0) {
+            System.out.println("Matriks Singular");
+        } else {
+            InverseAdjointMatrix = InverseAdjoint(matrix);
+            InverseAdjointMatrix.PrintMatrix();
         }
 
     }
