@@ -2,6 +2,9 @@ package flib;
 
 import java.util.Scanner;
 // import java.util.Arrays;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class Matrix {
     public double[][] DF;
@@ -398,4 +401,76 @@ public class Matrix {
 
     }
 
+    
+    /* Read From txt File */
+    public static Matrix readFromTxt(String path){ 
+        Matrix M = new Matrix(0,0);
+        File f = new File(path);
+            ArrayList<ArrayList<Double>> arrayList2D = new ArrayList<ArrayList<Double>>();
+            try {
+                Scanner rowScanner = new Scanner(f);
+                int row = -1;
+                while (rowScanner.hasNext()) {
+                    row += 1;
+                    arrayList2D.add(new ArrayList<Double>());
+                    String line = rowScanner.nextLine();
+                    Scanner scanValue = new Scanner(line);
+                    scanValue.useDelimiter(" ");
+                    while (scanValue.hasNext()){
+                        double value = scanValue.nextDouble();
+                        arrayList2D.get(row).add(value);
+                        
+                    }
+                    scanValue.close();
+                }
+                rowScanner.close();
+                
+
+                if (row!=-1){
+                    int rowCount = arrayList2D.size();
+                    int columnCount = arrayList2D.get(0).size();
+                    M = new Matrix(rowCount, columnCount);
+                    M.ROWCOUNT = rowCount;
+                    M.COLCOUNT = columnCount;
+                    for(int i=0;i<rowCount;i++){
+                        for(int j=0;j<columnCount;j++){
+                            M.SetElement(i, j,  arrayList2D.get(i).get(j));
+                        }
+                    }
+
+
+                } else{
+                    System.out.println("File Kosong");
+                }
+
+
+                //arrayList2D sudah terisi penuh dari file
+            } catch (FileNotFoundException e) {
+                System.out.println("Error: File not Found");
+            } finally{
+                return M;
+            }
+        }
+
+        /* Make Hilbert Augmented Matrix for test case purpose */
+        public static Matrix makeHilbertAugmented(int N){
+            Matrix hilbertAugmented = new Matrix(N,N+1);
+            double x;
+            for (int i=0;i<N;i++){
+                for (int j=0;j<=N;j++){
+                    if (j == N){
+                        if (i == 0){
+                            hilbertAugmented.SetElement(i, j, 1);
+                        }else{
+                            hilbertAugmented.SetElement(i, j, 0);
+                        }
+                    } else{
+                        hilbertAugmented.SetElement(i, j, (double)1/(i+j+1));
+                    }
+                    
+                }
+            }
+    
+            return hilbertAugmented;
+        }
 }
