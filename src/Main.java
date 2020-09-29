@@ -45,5 +45,42 @@ public class Main {
 
     public static void main(String[] args) {
         MainMenu();
+        //readFromTxt test
+        System.out.println("Coba readTxt:\n");
+        Matrix matrix = Matrix.readFromTxt("C:\\Users\\ASUS ROG GL503G\\Algeo01-19062\\test\\isi.txt");
+        matrix.PrintMatrix();
+        System.out.println("\n");
+        
+        //Interpolation test
+        System.out.println("Coba interpolasi:\n");
+        Matrix manual = new Matrix(3, 2);
+        manual.DF = new double[][] {    {8.0, 2.0794}, 
+                                        {9.0, 2.1972}, 
+                                        {9.5, 2.2513}};
+        manual.PrintMatrix();
+        System.out.println("\n");
+        
+        interpolation i = new interpolation();
+        Matrix interpolated = i.makeMatrixForInterpolation(manual);
+        interpolated.PrintMatrix();
+        System.out.println("\n");
+        double x = i.interpolationResult(manual, 9.2);
+        System.out.println("\n");
+        System.out.println(x);
+        System.out.println("\n");
+
+        //Matriks Hilbert
+        System.out.println("Coba hilbert:\n");
+        Matrix M1 = Matrix.makeHilbertAugmented(6);
+        M1.PrintMatrix();;
+        System.out.println("\n");
+
+        //Parametric test
+        Matrix M2 = new Matrix(4,5);
+        M2.DF = new double[][] {    {1,2,3,4,5},
+                                    {0,1,0,1,2},
+                                    {0,0,0,1,1},
+                                    {0,0,0,0,0}};
+        M2.ParametricOnGauss();
     }
 }

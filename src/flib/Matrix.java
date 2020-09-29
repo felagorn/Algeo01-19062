@@ -1,8 +1,11 @@
 package flib;
 
 import java.util.Scanner;
-
 // import java.util.Arrays;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+
 
 public class Matrix {
     public double[][] DF;
@@ -68,8 +71,7 @@ public class Matrix {
                     this.SetElement(i, j, anotherSmallerMatrix.GetElement(i, j));
                 }
             }
-        }
-        else {
+        } else {
             System.out.println("ERROR: Paste failed. Destination matrix too small.");
         }
     }
@@ -98,8 +100,7 @@ public class Matrix {
         boolean isValid;
         if ((rowID >= this.GetFirstRowID()) && (rowID <= this.GetLastRowID())) {
             isValid = true;
-        }
-        else {
+        } else {
             isValid = false;
         }
         return isValid;
@@ -109,8 +110,7 @@ public class Matrix {
         boolean isValid;
         if ((colID >= this.GetFirstColID()) && (colID <= this.GetLastColID())) {
             isValid = true;
-        }
-        else {
+        } else {
             isValid = false;
         }
         return isValid;
@@ -125,8 +125,7 @@ public class Matrix {
                 // this.SetRow(row1, this.GetRow(row2));
                 // this.SetRow(row2, temp);
             }
-        }
-        else {
+        } else {
             System.out.println("ERROR: Row index out of bounds.");
         }
     }
@@ -138,8 +137,7 @@ public class Matrix {
             for (int j = this.GetFirstColID(); j <= jFinal ; j += 1) {
                 this.DF[row1][j] += (k * this.GetElement(row2, j));
             }
-        }
-        else {
+        } else {
             System.out.println("ERROR: Row index out of bounds.");
         }
     }
@@ -150,8 +148,7 @@ public class Matrix {
             for(int j = this.GetFirstColID(); j <= jFinal; j += 1) {
                 this.DF[row][j] *= k;
             }
-        }
-        else {
+        } else {
             System.out.println("ERROR: Row index out of bounds.");
         }
     }
@@ -168,8 +165,7 @@ public class Matrix {
             while ((j <= jFinal) && !(isFound)) {
                 if (this.GetElement(row, j) != 0) {
                     isFound = true;
-                }
-                else {
+                } else {
                     j += 1;
                 }
             }
@@ -200,8 +196,7 @@ public class Matrix {
             while ((i <= iFinal) && !(isFound)) {
                 if (this.GetElement(i, col) != 0) {
                     isFound = true;
-                }
-                else {
+                } else {
                     i += 1;
                 }
             }
@@ -218,8 +213,7 @@ public class Matrix {
             while ((i <= iFinal) && !(isFound)) {
                 if (this.GetElement(i, col) != 0) {
                     isFound = true;
-                }
-                else {
+                } else {
                     i += 1;
                 }
             }
@@ -242,8 +236,7 @@ public class Matrix {
                 while ((i <= iFinal) && !(isFound)) {
                     if (this.GetElement(i, col) != 0) {
                         isFound = true;
-                    }
-                    else {
+                    } else {
                         i += 1;
                     }
                 }
@@ -261,8 +254,7 @@ public class Matrix {
             while ((i <= iFinal) && !(isFound)) {
                 if (this.GetElement(i, col) != 0) {
                     isFound = true;
-                }
-                else {
+                } else {
                     i += 1;
                 }
             }
@@ -281,12 +273,10 @@ public class Matrix {
             if (i != currentRow) {
                 if (i == this.GetROWCOUNT()) {
                     j += 1;
-                }
-                else {
+                } else {
                     this.OBE_SwapRow(currentRow, i);
                 }
-            }
-            else {
+            } else {
                 currentRow += 1;
             }
         }
@@ -367,4 +357,211 @@ public class Matrix {
         }
         scanner.close();
     }
+
+    
+    /* Read From txt File */
+    public static Matrix readFromTxt(String path){ 
+        Matrix M = new Matrix(0,0);
+        File f = new File(path);
+            ArrayList<ArrayList<Double>> arrayList2D = new ArrayList<ArrayList<Double>>();
+            try {
+                Scanner rowScanner = new Scanner(f);
+                int row = -1;
+                while (rowScanner.hasNext()) {
+                    row += 1;
+                    arrayList2D.add(new ArrayList<Double>());
+                    String line = rowScanner.nextLine();
+                    Scanner scanValue = new Scanner(line);
+                    scanValue.useDelimiter(" ");
+                    while (scanValue.hasNext()){
+                        double value = scanValue.nextDouble();
+                        arrayList2D.get(row).add(value);
+                        
+                    }
+                    scanValue.close();
+                }
+                rowScanner.close();
+                
+
+                if (row!=-1){
+                    int rowCount = arrayList2D.size();
+                    int columnCount = arrayList2D.get(0).size();
+                    M = new Matrix(rowCount, columnCount);
+                    M.ROWCOUNT = rowCount;
+                    M.COLCOUNT = columnCount;
+                    for(int i=0;i<rowCount;i++){
+                        for(int j=0;j<columnCount;j++){
+                            M.SetElement(i, j,  arrayList2D.get(i).get(j));
+                        }
+                    }
+
+
+                } else{
+                    System.out.println("File Kosong");
+                }
+
+
+                //arrayList2D sudah terisi penuh dari file
+            } catch (FileNotFoundException e) {
+                System.out.println("Error: File not Found");
+            } finally{
+                return M;
+            }
+        }
+
+
+    public static Matrix makeHilbertAugmented(int N){
+        Matrix hilbertAugmented = new Matrix(N,N+1);
+        double x;
+        for (int i=0;i<N;i++){
+            for (int j=0;j<=N;j++){
+                if (j == N){
+                    if (i == 0){
+                        hilbertAugmented.SetElement(i, j, 1);
+                    }else{
+                        hilbertAugmented.SetElement(i, j, 0);
+                    }
+                } else{
+                    hilbertAugmented.SetElement(i, j, (double)1/(i+j+1));
+                }
+                
+            }
+        }
+
+        return hilbertAugmented;
+    }
+
+    public boolean is_all_zero_row(int row){
+        for(int j=0;j<=this.GetLastColID();j++){
+            if(GetElement(row, j) != 0){
+                return false;
+            }
+        }
+        return true; 
+        
+    }
+
+    public boolean is_all_zero_row_except_last(int row){
+        for(int j=0;j<this.GetLastColID();j++){
+            if(GetElement(row, j) != 0){
+                return false;
+            }
+        }
+        return (this.GetElement(row, this.GetLastColID()) !=0); 
+    }
+
+    public boolean has_zero_row_except_last(){
+        for(int row=0;row<=this.GetLastRowID();row++){
+            if (this.is_all_zero_row_except_last(row)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean only_have_leadingOne_row(int row){
+        int totalOne = 0;
+        for (int col=0;col<this.GetLastColID();col++){
+            if (this.GetElement(row, col) == 1){
+                totalOne+=1;
+            }else if (this.GetElement(row,col) != 0){
+                return false;
+            }
+        }
+        return (totalOne==1);
+    }
+
+    public void ParametricOnGauss(){
+        if (!this.has_zero_row_except_last()){   
+            //M must be a row echelon augmented matrix (with <= 27 columns)
+            char[] parametricVar = new char[] {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+            String[] parametricSolution = new String[this.GetCOLCOUNT()-1];
+            char[] hasSolution = new char[this.GetCOLCOUNT()-1] ;
+            for(int i=0;i<this.GetCOLCOUNT()-1;i++){
+                parametricSolution[i] ="";
+                hasSolution[i] ='0';
+            }
+            
+            /* char '0' means it has unlimited solution
+               char '1' means it also has unlimited solution but it is bound by those with char '0'
+               char '2' means it only has 1 solution that we got from row that only has leading 1
+               char '3' means it only has 1 solution but we got it from subtracting*/ 
+            double[] absoluteSolution = new double[this.GetCOLCOUNT()-1]; 
+
+            int leadingOneCol;
+            for(int row=0;row<=this.GetLastRowID();row++){
+                if(this.only_have_leadingOne_row(row)){
+                    leadingOneCol = GetLeadingValue_Row_ColID(row);
+                    absoluteSolution[leadingOneCol] = this.GetElement(row, this.GetLastColID());
+                    hasSolution[leadingOneCol]='2'; 
+                }
+                else if(!this.is_all_zero_row(row)){
+                    leadingOneCol = GetLeadingValue_Row_ColID(row);
+                    hasSolution[leadingOneCol] = '1';
+                    absoluteSolution[leadingOneCol] = this.GetElement(row, this.GetLastColID());
+                }
+            }
+
+            for(int row=0;row<=this.GetLastRowID();row++){
+                if(!this.is_all_zero_row(row)){
+                    leadingOneCol = GetLeadingValue_Row_ColID(row);
+                    // parametricSolution[leadingOneCol] = Double.toString(this.GetElement(row, this.GetLastColID()));
+                    for(int col=leadingOneCol+1;col<this.GetLastColID();col++){
+                        if (hasSolution[col] =='2'){
+                            absoluteSolution[leadingOneCol] -= this.GetElement(row,col)*absoluteSolution[col] ;
+                        }
+                        else{
+                            if(this.GetElement(row, col) > 0){
+                                parametricSolution[leadingOneCol] += " - ";
+                                parametricSolution[leadingOneCol] += Double.toString(this.GetElement(row, col));
+                                parametricSolution[leadingOneCol] += parametricVar[col-1];
+                            }else if(this.GetElement(row, col)<0){
+                                parametricSolution[leadingOneCol] += " + ";
+                                parametricSolution[leadingOneCol] += Double.toString(-this.GetElement(row, col));
+                                parametricSolution[leadingOneCol] += parametricVar[col-1];
+                            }
+                        }
+                    }
+
+                }
+            }
+
+
+            for(int col=0;col<this.GetLastColID();col++){
+                if(hasSolution[col] == '0'){
+                    parametricSolution[col] = "" +parametricVar[col-1];
+                }else if(hasSolution[col] == '1'){
+                    if(parametricSolution[col] !=""){
+                        parametricSolution[col] = Double.toString(absoluteSolution[col]) + "" + parametricSolution[col];
+                    } else{
+                        hasSolution[col] = '3';
+                        parametricSolution[col] = Double.toString((absoluteSolution[col]));
+                    }
+                    
+                } else{
+                    parametricSolution[col] = Double.toString(absoluteSolution[col]);
+                }
+            }
+
+            for(int row=0;row<=this.GetLastRowID();row++){
+                if(!this.is_all_zero_row(row)){
+                    leadingOneCol = GetLeadingValue_Row_ColID(row);
+                    for(int col=this.GetLastColID()-2;col>leadingOneCol;col--){
+                        if((hasSolution[col] == '1') || (hasSolution[col] =='3')){
+                            parametricSolution[leadingOneCol]= parametricSolution[leadingOneCol].replace(""+parametricVar[col-1], "("+parametricSolution[col]+")");
+                        }
+                    }
+                }
+
+            }
+            
+            for(int i=0;i<this.GetLastColID();i++){
+                System.out.println("x"+Integer.toString(i+1)+"= "+parametricSolution[i]);
+            }
+            
+        } else{
+            System.out.println("Linear Equation has no real solution");
+        }  
+    }
+
 }
