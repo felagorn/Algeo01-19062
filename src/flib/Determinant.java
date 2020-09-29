@@ -65,4 +65,9 @@ public class Determinant {
     public void PrintDeterminant() {
         System.out.printf("%f", this.DET);
     }
+    
+    public double GetDeterminant(Matrix matrix) {
+        Kofaktor(matrix);
+        return this.DET;
+    }
 }

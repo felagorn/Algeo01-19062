@@ -1,5 +1,7 @@
 package flib;
 
+import java.util.Scanner;
+
 // import java.util.Arrays;
 
 public class Matrix {
@@ -346,5 +348,23 @@ public class Matrix {
         this.PasteDFFrom(minor);
         this.ROWCOUNT = minor.GetROWCOUNT();
         this.COLCOUNT = minor.GetCOLCOUNT();
+    }
+
+    public void bacaMatriks() {
+        int row, col;
+        // menerima input pengguna untuk mengisi array 2d isi
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("row:");
+        row = scanner.nextInt();
+        System.out.println("col:");
+        col = scanner.nextInt();
+        ROWCOUNT = row;
+        COLCOUNT = col;
+        for (int i = 0; i <= GetLastRowID(); i++) {
+            for (int j = 0; j <= GetLastColID(); j++) {
+                DF[i][j] = scanner.nextDouble();
+            }
+        }
+        scanner.close();
     }
 }
