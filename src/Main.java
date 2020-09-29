@@ -28,7 +28,7 @@ public class Main {
         System.out.println("Matrix determinan awal:");
         squarematrix.PrintMatrix();
         System.out.printf("\n\n");
-      
+
         // Determinant TEST
         Determinant obeDeterminant = new Determinant();
         obeDeterminant.OBE(squarematrix);
@@ -40,7 +40,7 @@ public class Main {
         System.out.print("Determinan Kofaktor: ");
         cofactorDeterminant.PrintDeterminant();
         System.out.println();
-      
+
         // Inverse & Baca Matrix TEST
         Matrix squarematrix2 = new Matrix(3, 3);
 
@@ -54,6 +54,11 @@ public class Main {
         System.out.println("Inverse:");
         OBEInverse.PrintInverseOBE(squarematrix2);
         System.out.println();
+
+        Matrix squarematrix3 = new Matrix(3, 3);
+        Inverse AdjointInverse = new Inverse();
+        squarematrix3.bacaMatriks();
+        AdjointInverse.PrintInverseAdjoint(squarematrix3);
 
     }
 }
