@@ -1,46 +1,49 @@
 import flib.*;
+import java.util.Scanner;
 
 public class Main {
 
+    private static void clrscr() {
+        System.out.print("\033[H\033[2J");  
+        System.out.flush();
+    }
+    
+    private static void MainMenu() {
+        //clrscr();
+        System.out.println("MENU");
+        System.out.println("1. Sistem Persamaan Linier");
+        System.out.println("2. Determinan");
+        System.out.println("3. Matriks balikan");
+        System.out.println("4. Interpolasi Polinom");
+        System.out.println("5. Regresi Linier Berganda");
+        System.out.println("6. Keluar");
+        System.out.println("----------------------------------------------------------------");
+        Scanner input = new Scanner(System.in);
+        String q;
+        do {
+            System.out.print("Pilihan anda: ");
+            q = input.nextLine();
+            if (!(q.equals("1") || q.equals("2") || q.equals("3") || q.equals("4") || q.equals("5") || q.equals("6"))) {
+                System.out.println("ERROR: Input tidak valid");
+            }
+        } while (!(q.equals("1") || q.equals("2") || q.equals("3") || q.equals("4") || q.equals("5") || q.equals("6")));
+        input.close();
+        if (q.equals("1")) {
+
+        } else if (q.equals("2")) {
+
+        } else if (q.equals("3")) {
+
+        } else if (q.equals("4")) {
+
+        } else if (q.equals("5")) {
+
+        } else {
+            System.exit(0);
+        }
+    }
+
     public static void main(String[] args) {
-        Matrix matrix = new Matrix(4, 5);
-        matrix.DF = new double[][] { {1, 2, 3, 4, 5},
-                                     {3, 6, 3, 6, 8},
-                                     {1, 2, 3, 4, 6},
-                                     {0, 4, 2, 3, 5} };
-        System.out.println("Matriks awal:");
-        matrix.PrintMatrix();
-        System.out.printf("\n\n");
-        System.out.println("Matriks disort:");
-        matrix.UpperTriangularSelectionSort();
-        matrix.PrintMatrix();
-        System.out.printf("\n\n");
-        System.out.println("Matriks diubah ke dalam bentuk eselon baris:");
-        matrix.Convert_RowEchelon();
-        matrix.PrintMatrix();
-        System.out.printf("\n\n");
-        System.out.println("Matriks setelah diubah ke dalam bentuk eselon baris tereduksi:");
-        matrix.Convert_ReducedRowEchelon();
-        matrix.PrintMatrix();
-        System.out.printf("\n\n");
-        Matrix squarematrix = new Matrix(5, 5);
-        squarematrix.DF = new double[][] {  {1, 3, 1, 5, 3},
-                                            {-2, -7, 0, -4, 2},
-                                            {0, 0, 1, 0, 1},
-                                            {0, 0, 2, 1, 1},
-                                            {0, 0, 0, 1, 1}     };
-        System.out.println("Matrix determinan awal:");
-        squarematrix.PrintMatrix();
-        System.out.printf("\n\n");
-        Determinant obeDeterminant = new Determinant();
-        obeDeterminant.OBE(squarematrix);
-        System.out.print("Determinan OBE: ");
-        obeDeterminant.PrintDeterminant();
-        System.out.println();
-        Determinant cofactorDeterminant = new Determinant();
-        cofactorDeterminant.Kofaktor(squarematrix);
-        System.out.print("Determinan Kofaktor: ");
-        cofactorDeterminant.PrintDeterminant();
-        System.out.println();
+        MainMenu();
     }
 }
