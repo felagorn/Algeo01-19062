@@ -9,15 +9,6 @@ public class Interpolation {
         Create_InterpolationMatrix(listOfCoordinates);
     }
 
-    public double power(double x, int degree) {
-        //Only for positive degree
-        if (degree == 0) {
-            return 1;
-        }else{
-            return x * power(x, degree-1);
-        }
-    }
-
     public void Create_InterpolationMatrix(Matrix listOfCoordinates) {
         if (listOfCoordinates.COLCOUNT != 2) {
             System.out.println("Matriks input salah");

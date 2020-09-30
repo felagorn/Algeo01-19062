@@ -1,7 +1,7 @@
 package flib;
 
 public class Inverse {
-    Matrix MATRIX;
+    public Matrix MATRIX;
 
     public Inverse() {
     };
@@ -87,7 +87,7 @@ public class Inverse {
         }
     }
 
-    public void InverseAdjoint(Matrix M) {
+    public void Adjoint(Matrix M) {
         if (M.ROWCOUNT == M.COLCOUNT) {
             Determinant Det = new Determinant();
             Det.OBE(M);

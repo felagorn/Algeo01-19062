@@ -17,7 +17,6 @@ public class Main {
         System.out.println("4. Interpolasi Polinom");
         System.out.println("5. Regresi Linier Berganda");
         System.out.println("6. Keluar");
-        System.out.println("----------------------------------------------------------------");
         Scanner input = new Scanner(System.in);
         String q;
         do {
@@ -29,15 +28,19 @@ public class Main {
         } while (!(q.equals("1") || q.equals("2") || q.equals("3") || q.equals("4") || q.equals("5") || q.equals("6")));
         input.close();
         if (q.equals("1")) {
-
+            System.out.println();
+            SistemPersamaanLinier.Menu();
         } else if (q.equals("2")) {
-
+            System.out.println();
+            Determinan.Menu();
         } else if (q.equals("3")) {
-
+            System.out.println();
+            MatriksBalikan.Menu();
         } else if (q.equals("4")) {
-
+            System.out.println();
+            InterpolasiPolinom.Menu();
         } else if (q.equals("5")) {
-
+            System.out.println();
         } else {
             System.exit(0);
         }
