@@ -41,24 +41,25 @@ public class Main {
         cofactorDeterminant.PrintDeterminant();
         System.out.println();
 
-        // Inverse & Baca Matrix TEST
-        Matrix squarematrix2 = new Matrix(3, 3);
+        // // Inverse & Baca Matrix TEST
+        // Matrix squarematrix2 = new Matrix(3, 3);
 
-        Inverse OBEInverse = new Inverse();
-        squarematrix2.bacaMatriks();
-        OBEInverse.makeAugmentedIdentity(squarematrix2);
+        // Inverse OBEInverse = new Inverse();
+        // squarematrix2.bacaMatriks();
+        // OBEInverse.makeAugmentedIdentity(squarematrix2);
 
-        System.out.println();
-        OBEInverse.InverseOBE(squarematrix2);
+        // System.out.println();
+        // OBEInverse.InverseOBE(squarematrix2);
 
-        System.out.println("Inverse:");
-        OBEInverse.PrintInverseOBE(squarematrix2);
-        System.out.println();
+        // System.out.println("Inverse:");
+        // OBEInverse.PrintInverseOBE(squarematrix2);
+        // System.out.println();
 
         Matrix squarematrix3 = new Matrix(3, 3);
         Inverse AdjointInverse = new Inverse();
         squarematrix3.bacaMatriks();
-        AdjointInverse.PrintInverseAdjoint(squarematrix3);
+        // AdjointInverse.PrintInverseAdjoint(squarematrix3);
+        AdjointInverse.InverseSPL(squarematrix3);
 
     }
 }

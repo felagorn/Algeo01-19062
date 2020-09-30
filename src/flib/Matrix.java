@@ -26,6 +26,7 @@ public class Matrix {
     public int GetFirstRowID() {
         return 0;
     }
+
     public int GetFirstColID() {
         return 0;
     }
@@ -378,7 +379,6 @@ public class Matrix {
         this.ROWCOUNT = minor.GetROWCOUNT();
         this.COLCOUNT = minor.GetCOLCOUNT();
     }
-
 
     public void bacaMatriks() {
         int row, col;
