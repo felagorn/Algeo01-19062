@@ -141,4 +141,30 @@ public class Inverse {
         }
 
     }
+
+    public void InverseSPL(Matrix matrix) {
+        double[] T = new double[100];
+        double[] SPL = new double[100];
+        double sum;
+        Matrix InverseMatrix;
+        int j, k, i;
+        j = matrix.GetLastColID();
+        for (i = 0; i <= matrix.GetLastRowID(); i++) {
+            T[i] = matrix.GetElement(i, j);
+        }
+        matrix.COLCOUNT -= 1;
+        InverseMatrix = InverseAdjoint(matrix);
+        for (int z = 0; z <= InverseMatrix.GetLastRowID(); z++) {
+            sum = 0;
+            for (int w = 0; w <= InverseMatrix.GetLastColID(); w++) {
+                // InverseMatrix.SetElement(z, w, InverseMatrix.GetElement(z, w) / Det);
+                sum = InverseMatrix.GetElement(z, w) * T[w] + sum;
+            }
+            SPL[z] = sum;
+        }
+        for (int e = 0; e < i; e++) {
+            System.out.println(SPL[e]);
+        }
+
+    }
 }
