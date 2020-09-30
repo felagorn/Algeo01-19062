@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.lang.Math;
 
 
 public class Matrix {
@@ -62,13 +63,13 @@ public class Matrix {
         }
     }*/
 
-    public void PasteDFFrom(Matrix anotherSmallerMatrix) {
-        if ((this.GetROWCOUNT() >= anotherSmallerMatrix.GetROWCOUNT()) && (this.GetCOLCOUNT() >= anotherSmallerMatrix.GetCOLCOUNT())) {
-            int iFinal = anotherSmallerMatrix.GetLastRowID();
-            int jFinal = anotherSmallerMatrix.GetLastColID();
-            for (int i = anotherSmallerMatrix.GetFirstRowID(); i <= iFinal; i += 1) {
-                for (int j = anotherSmallerMatrix.GetFirstColID(); j <= jFinal; j += 1) {
-                    this.SetElement(i, j, anotherSmallerMatrix.GetElement(i, j));
+    public void PasteDFFrom(Matrix anotherNotLargerMatrix) {
+        if ((this.GetROWCOUNT() >= anotherNotLargerMatrix.GetROWCOUNT()) && (this.GetCOLCOUNT() >= anotherNotLargerMatrix.GetCOLCOUNT())) {
+            int iFinal = anotherNotLargerMatrix.GetLastRowID();
+            int jFinal = anotherNotLargerMatrix.GetLastColID();
+            for (int i = anotherNotLargerMatrix.GetFirstRowID(); i <= iFinal; i += 1) {
+                for (int j = anotherNotLargerMatrix.GetFirstColID(); j <= jFinal; j += 1) {
+                    this.SetElement(i, j, anotherNotLargerMatrix.GetElement(i, j));
                 }
             }
         } else {
@@ -92,6 +93,80 @@ public class Matrix {
                 System.out.println();
             }
         }
+    }
+
+    /* Scan */
+
+    public static Matrix Create_FromUserInput() {
+        int row, col;
+        // menerima input pengguna untuk mengisi Matrix
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Banyak baris matriks: ");
+        row = scanner.nextInt();
+        System.out.println();
+        System.out.print("Banyak kolom matriks: ");
+        col = scanner.nextInt();
+        System.out.println();
+        Matrix matrix = new Matrix(row, col);
+        int iFinal = matrix.GetLastRowID();
+        int jFinal = matrix.GetLastColID();
+        for (int i = matrix.GetFirstRowID(); i <= iFinal; i++) {
+            for (int j = matrix.GetFirstColID(); j <= jFinal; j++) {
+                matrix.DF[i][j] = scanner.nextDouble();
+            }
+        }
+        scanner.close();
+        return matrix;
+    }
+
+    
+    /* Read From txt File */
+    public static Matrix Create_FromTxt() { 
+        Matrix M;
+        ArrayList<ArrayList<Double>> arrayList2D = new ArrayList<ArrayList<Double>>();
+        int row = -1;
+        boolean isValid = false;
+        while (!(isValid)) {
+            try {
+                Scanner input = new Scanner(System.in);
+                System.out.print("Path lengkap dari file .txt matriks: ");
+                String path = input.nextLine();
+                input.close();
+                File f = new File(path);
+                Scanner rowScanner = new Scanner(f);
+                row = -1;
+                while (rowScanner.hasNext()) {
+                    row += 1;
+                    arrayList2D.add(new ArrayList<Double>());
+                    String line = rowScanner.nextLine();
+                    Scanner scanValue = new Scanner(line);
+                    scanValue.useDelimiter(" ");
+                    while (scanValue.hasNext()){
+                        double value = scanValue.nextDouble();
+                        arrayList2D.get(row).add(value);
+                    }
+                    scanValue.close();
+                }
+                rowScanner.close();
+                isValid = true;
+            } catch (FileNotFoundException e) {
+                System.out.println("Error: File not Found");
+            }
+        }
+        if (row != -1) {
+            int rowCount = arrayList2D.size();
+            int columnCount = arrayList2D.get(0).size();
+            M = new Matrix(rowCount, columnCount);
+            for(int i = 0; i < rowCount; i++){
+                for(int j = 0; j < columnCount; j++){
+                    M.SetElement(i, j,  arrayList2D.get(i).get(j));
+                }
+            }
+        } else {
+            System.out.println("File Kosong");
+            M = new Matrix(0, 0);
+        }
+        return M;
     }
 
     /* Basic Operations */
@@ -340,126 +415,85 @@ public class Matrix {
         this.COLCOUNT = minor.GetCOLCOUNT();
     }
 
-    public void bacaMatriks() {
-        int row, col;
-        // menerima input pengguna untuk mengisi array 2d isi
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("row:");
-        row = scanner.nextInt();
-        System.out.println("col:");
-        col = scanner.nextInt();
-        ROWCOUNT = row;
-        COLCOUNT = col;
-        for (int i = 0; i <= GetLastRowID(); i++) {
-            for (int j = 0; j <= GetLastColID(); j++) {
-                DF[i][j] = scanner.nextDouble();
+    public void Convert_CoFactorMatrix() {
+        Matrix CoFactorMatrix = new Matrix((this.GetROWCOUNT()), (this.GetCOLCOUNT()));
+        int iFinal = this.GetLastRowID();
+        int jFinal = this.GetLastColID();
+        for (int i = this.GetFirstRowID(); i <= iFinal; i += 1) {
+            for (int j = this.GetFirstColID(); j <= jFinal; j += 1) {
+                Matrix minor = new Matrix((this.GetROWCOUNT()), (this.GetCOLCOUNT()));
+                minor.PasteDFFrom(this);
+                minor.Convert_Minor(i, j);
+                Determinant Det = new Determinant();
+                Det.OBE(minor);
+                CoFactorMatrix.SetElement(i, j, (Math.pow(-1, (i + j)) * Det.GetDeterminant()));
             }
         }
-        scanner.close();
+        this.PasteDFFrom(CoFactorMatrix);
     }
 
-    
-    /* Read From txt File */
-    public static Matrix readFromTxt(String path){ 
-        Matrix M = new Matrix(0,0);
-        File f = new File(path);
-            ArrayList<ArrayList<Double>> arrayList2D = new ArrayList<ArrayList<Double>>();
-            try {
-                Scanner rowScanner = new Scanner(f);
-                int row = -1;
-                while (rowScanner.hasNext()) {
-                    row += 1;
-                    arrayList2D.add(new ArrayList<Double>());
-                    String line = rowScanner.nextLine();
-                    Scanner scanValue = new Scanner(line);
-                    scanValue.useDelimiter(" ");
-                    while (scanValue.hasNext()){
-                        double value = scanValue.nextDouble();
-                        arrayList2D.get(row).add(value);
-                        
-                    }
-                    scanValue.close();
-                }
-                rowScanner.close();
-                
-
-                if (row!=-1){
-                    int rowCount = arrayList2D.size();
-                    int columnCount = arrayList2D.get(0).size();
-                    M = new Matrix(rowCount, columnCount);
-                    M.ROWCOUNT = rowCount;
-                    M.COLCOUNT = columnCount;
-                    for(int i=0;i<rowCount;i++){
-                        for(int j=0;j<columnCount;j++){
-                            M.SetElement(i, j,  arrayList2D.get(i).get(j));
-                        }
-                    }
-
-
-                } else{
-                    System.out.println("File Kosong");
-                }
-
-
-                //arrayList2D sudah terisi penuh dari file
-            } catch (FileNotFoundException e) {
-                System.out.println("Error: File not Found");
-            } finally{
-                return M;
+    public Matrix Transpose() {
+        Matrix TransposeMatrix = new Matrix((this.GetROWCOUNT()), (this.GetCOLCOUNT()));
+        int iFinal = this.GetLastRowID();
+        int jFinal = this.GetLastColID();
+        for (int i = this.GetFirstRowID(); i <= iFinal; i += 1) {
+            for (int j = this.GetFirstColID(); j <= jFinal; j += 1) {
+                TransposeMatrix.SetElement(i, j, this.GetElement(j, i));
             }
         }
+        return TransposeMatrix;
+    }
 
-
-    public static Matrix makeHilbertAugmented(int N){
-        Matrix hilbertAugmented = new Matrix(N,N+1);
-        double x;
-        for (int i=0;i<N;i++){
-            for (int j=0;j<=N;j++){
-                if (j == N){
-                    if (i == 0){
+    public static Matrix makeHilbertAugmented(int N) {
+        Matrix hilbertAugmented = new Matrix(N, N + 1);
+        for (int i = 0; i < N ; i++){
+            for (int j = 0; j <= N; j++) {
+                if (j == N) {
+                    if (i == 0) {
                         hilbertAugmented.SetElement(i, j, 1);
-                    }else{
+                    } else {
                         hilbertAugmented.SetElement(i, j, 0);
                     }
-                } else{
-                    hilbertAugmented.SetElement(i, j, (double)1/(i+j+1));
+                } else {
+                    hilbertAugmented.SetElement(i, j, (double) 1 / (i + j + 1));
                 }
                 
             }
         }
-
         return hilbertAugmented;
     }
 
-    public boolean is_all_zero_row(int row){
-        for(int j=0;j<=this.GetLastColID();j++){
-            if(GetElement(row, j) != 0){
-                return false;
+    public boolean Row_IsAllZero(int row) {
+        boolean isAllZero = true;
+        int j = this.GetFirstColID();
+        int jFinal = this.GetLastColID();
+        while ((j <= jFinal) && (isAllZero)) {
+            if (GetElement(row, j) != 0) {
+                isAllZero = false;
             }
         }
-        return true; 
-        
+        return isAllZero; 
     }
 
-    public boolean is_all_zero_row_except_last(int row){
+    public boolean Row_IsAllZero_ExceptLast(int row) {
         for(int j=0;j<this.GetLastColID();j++){
             if(GetElement(row, j) != 0){
                 return false;
             }
         }
-        return (this.GetElement(row, this.GetLastColID()) !=0); 
+        return (this.GetElement(row, this.GetLastColID()) != 0);
     }
 
-    public boolean has_zero_row_except_last(){
+    public boolean Row_HasZero_ExceptLast(){
         for(int row=0;row<=this.GetLastRowID();row++){
-            if (this.is_all_zero_row_except_last(row)){
+            if (this.Row_IsAllZero_ExceptLast(row)){
                 return true;
             }
         }
         return false;
     }
 
-    public boolean only_have_leadingOne_row(int row){
+    public boolean Row_OnlyHaveLeadingOne(int row){
         int totalOne = 0;
         for (int col=0;col<this.GetLastColID();col++){
             if (this.GetElement(row, col) == 1){
@@ -472,7 +506,7 @@ public class Matrix {
     }
 
     public void ParametricOnGauss(){
-        if (!this.has_zero_row_except_last()){   
+        if (!this.Row_HasZero_ExceptLast()){   
             //M must be a row echelon augmented matrix (with <= 27 columns)
             char[] parametricVar = new char[] {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
             String[] parametricSolution = new String[this.GetCOLCOUNT()-1];
@@ -490,12 +524,12 @@ public class Matrix {
 
             int leadingOneCol;
             for(int row=0;row<=this.GetLastRowID();row++){
-                if(this.only_have_leadingOne_row(row)){
+                if(this.Row_OnlyHaveLeadingOne(row)){
                     leadingOneCol = GetLeadingValue_Row_ColID(row);
                     absoluteSolution[leadingOneCol] = this.GetElement(row, this.GetLastColID());
                     hasSolution[leadingOneCol]='2'; 
                 }
-                else if(!this.is_all_zero_row(row)){
+                else if(!this.Row_IsAllZero(row)){
                     leadingOneCol = GetLeadingValue_Row_ColID(row);
                     hasSolution[leadingOneCol] = '1';
                     absoluteSolution[leadingOneCol] = this.GetElement(row, this.GetLastColID());
@@ -503,7 +537,7 @@ public class Matrix {
             }
 
             for(int row=0;row<=this.GetLastRowID();row++){
-                if(!this.is_all_zero_row(row)){
+                if(!this.Row_IsAllZero(row)){
                     leadingOneCol = GetLeadingValue_Row_ColID(row);
                     // parametricSolution[leadingOneCol] = Double.toString(this.GetElement(row, this.GetLastColID()));
                     for(int col=leadingOneCol+1;col<this.GetLastColID();col++){
@@ -544,7 +578,7 @@ public class Matrix {
             }
 
             for(int row=0;row<=this.GetLastRowID();row++){
-                if(!this.is_all_zero_row(row)){
+                if(!this.Row_IsAllZero(row)){
                     leadingOneCol = GetLeadingValue_Row_ColID(row);
                     for(int col=this.GetLastColID()-2;col>leadingOneCol;col--){
                         if((hasSolution[col] == '1') || (hasSolution[col] =='3')){

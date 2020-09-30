@@ -46,10 +46,11 @@ public class Main {
     public static void main(String[] args) {
         MainMenu();
         //readFromTxt test
-        System.out.println("Coba readTxt:\n");
-        Matrix matrix = Matrix.readFromTxt("C:\\Users\\ASUS ROG GL503G\\Algeo01-19062\\test\\isi.txt");
-        matrix.PrintMatrix();
-        System.out.println("\n");
+        //System.out.println("Coba readTxt:\n");
+        //Matrix matrix = Matrix.Create_FromTxt();
+        //"C:\\Users\\ASUS ROG GL503G\\Algeo01-19062\\test\\isi.txt"
+        //matrix.PrintMatrix();
+        //System.out.println("\n");
         
         //Interpolation test
         System.out.println("Coba interpolasi:\n");
@@ -60,13 +61,12 @@ public class Main {
         manual.PrintMatrix();
         System.out.println("\n");
         
-        interpolation i = new interpolation();
-        Matrix interpolated = i.makeMatrixForInterpolation(manual);
-        interpolated.PrintMatrix();
+        Interpolation i = new Interpolation(manual);
+        i.INTERPOLATIONMATRIX.PrintMatrix();;
         System.out.println("\n");
-        double x = i.interpolationResult(manual, 9.2);
+        double y = i.Interpolate(9.2);
         System.out.println("\n");
-        System.out.println(x);
+        System.out.println(y);
         System.out.println("\n");
 
         //Matriks Hilbert

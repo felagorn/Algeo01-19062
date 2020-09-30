@@ -23,8 +23,7 @@ public class Determinant {
             for (int i = iInitial, j = jInitial; ((i <= iFinal) && (j <= jFinal)); i += 1, j += 1) {
                 this.DET *= upperTriangle.GetElement(i, j);
             }
-        }
-        else {
+        } else {
             System.out.println("ERROR: Undefined determinant. Matrix must be n x n in dimension.");
         }
     }
@@ -37,8 +36,7 @@ public class Determinant {
             int j1 = matrix.GetFirstColID();
             int j2 = matrix.GetLastColID();
             recurse = (matrix.GetElement(i1, j1) * matrix.GetElement(i2, j2)) - (matrix.GetElement(i2, j1) * matrix.GetElement(i1, j2));
-        }
-        else {
+        } else {
             int jFinal = matrix.GetLastColID();
             int i = matrix.GetFirstRowID();
             double d = 0;
@@ -56,8 +54,7 @@ public class Determinant {
     public void Kofaktor(Matrix matrix) {
         if (matrix.GetROWCOUNT() == matrix.GetCOLCOUNT()) {
             this.DET = Kofaktor_Calculator(matrix);
-        }
-        else {
+        } else {
             System.out.println("ERROR: Undefined determinant. Matrix must be n x n in dimension.");
         }
     }
@@ -65,9 +62,8 @@ public class Determinant {
     public void PrintDeterminant() {
         System.out.printf("%f", this.DET);
     }
-    
-    public double GetDeterminant(Matrix matrix) {
-        Kofaktor(matrix);
+
+    public double GetDeterminant() {
         return this.DET;
     }
 }
