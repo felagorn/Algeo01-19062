@@ -29,9 +29,11 @@ public class Main {
 
         } else if (q.equals("2")) {
             Determinan.Menu();
+
         } else if (q.equals("3")) {
 
         } else if (q.equals("4")) {
+            InterpolasiPolinom.Menu();
 
         } else if (q.equals("5")) {
 

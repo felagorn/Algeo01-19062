@@ -1,54 +1,47 @@
 package flib;
 
-public class interpolation {
+import java.lang.Math;
 
-    public double power(double x, int degree){
-        //Only for positive degree
-        if (degree==0){
-            return 1;
-        }else{
-            return x*power(x,degree-1);
-        }
+public class Interpolation {
+    public Matrix INTERPOLATIONMATRIX;
+
+    public Interpolation(Matrix listOfCoordinates) {
+        Create_InterpolationMatrix(listOfCoordinates);
     }
 
-    public Matrix makeMatrixForInterpolation(Matrix M){
-        
-        if (M.ROWCOUNT !=0){
-            
-            Matrix interpolationMatrix = new Matrix(M.ROWCOUNT, M.ROWCOUNT+1);
-            double[] x = new double[M.ROWCOUNT];
-            double[] y = new double[M.ROWCOUNT];
-            for(int i=0;i< M.ROWCOUNT;i++){
-                x[i] = M.DF[i][0];
-                y[i] = M.DF[i][1];
-            }
-            for(int row = 0;row < M.ROWCOUNT;row++){
-                for(int col = 0;col<=M.ROWCOUNT;col++){
-                    if(col == M.ROWCOUNT){
-                        interpolationMatrix.SetElement(row, col, y[row]);
-                    }else{
-                        interpolationMatrix.SetElement(row, col, power(x[row], col));
+    public void Create_InterpolationMatrix(Matrix listOfCoordinates) {
+        if (listOfCoordinates.COLCOUNT != 2) {
+            System.out.println("Matriks input salah");
+        } else {
+            if (listOfCoordinates.GetROWCOUNT() == 0) {
+                System.out.println("Input kosong");
+            } else {
+                this.INTERPOLATIONMATRIX = new Matrix(listOfCoordinates.GetROWCOUNT(), (listOfCoordinates.GetROWCOUNT() + 1));
+                int iFinal = this.INTERPOLATIONMATRIX.GetLastRowID();
+                int jFinal = this.INTERPOLATIONMATRIX.GetLastColID();
+                int x = listOfCoordinates.GetFirstColID();
+                int y = listOfCoordinates.GetLastColID();
+                for (int i = this.INTERPOLATIONMATRIX.GetFirstRowID(); i <= iFinal; i += 1) {
+                    for (int j = this.INTERPOLATIONMATRIX.GetFirstColID(); j <= jFinal; j += 1) {
+                        if (j != jFinal) {
+                            this.INTERPOLATIONMATRIX.SetElement(i, j, Math.pow(listOfCoordinates.GetElement(i, x), j));
+                        } else {
+                            this.INTERPOLATIONMATRIX.SetElement(i, j, listOfCoordinates.GetElement(i, y));
+                        }
                     }
                 }
+                this.INTERPOLATIONMATRIX.Convert_ReducedRowEchelon();
             }
-            return interpolationMatrix;
-        } else{
-            return M;
         }
     }
 
-    public double interpolationResult(Matrix M, double x){
-        Matrix interpolated = new Matrix(0,0);
-        double coef[] = new double[M.ROWCOUNT];
-        double result = 0;
-        interpolated = makeMatrixForInterpolation(M);
-        interpolated.Convert_ReducedRowEchelon();
-        for(int i = 0; i<M.ROWCOUNT;i++){
-            coef[i] = interpolated.GetElement(i, interpolated.GetLastColID());
+    public double Interpolate(double x) {
+        double y = 0;
+        int iFinal = this.INTERPOLATIONMATRIX.GetLastRowID();
+        int coefID = this.INTERPOLATIONMATRIX.GetLastColID();
+        for (int i = this.INTERPOLATIONMATRIX.GetFirstRowID(); i <= iFinal; i += 1) {
+            y += this.INTERPOLATIONMATRIX.GetElement(i, coefID) * Math.pow(x, i);
         }
-        for(int j=0;j<M.ROWCOUNT;j++){
-            result += power(x,j)*coef[j];
-        }
-        return result;
+        return y;
     }
 }
