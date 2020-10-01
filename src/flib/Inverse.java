@@ -163,7 +163,7 @@ public class Inverse {
             SPL[z] = sum;
         }
         for (int e = 0; e < i; e++) {
-            System.out.println(SPL[e]);
+            System.out.println("x"+(e+1)+": "+SPL[e]);
         }
 
     }
