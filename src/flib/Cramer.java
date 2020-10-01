@@ -30,10 +30,10 @@ public class Cramer {
             temp.PasteDFFrom(matrix);
 
         }
-        System.out.println("Here");
+
         for (int e = 0; e < j; e++) {
             SPL[e] = SPL[e] / DetMatrix;
-            System.out.println(SPL[e]);
+            System.out.println("x"+(e+1)+": "+SPL[e]);
         }
 
     }

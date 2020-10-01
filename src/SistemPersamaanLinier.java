@@ -30,7 +30,7 @@ public class SistemPersamaanLinier {
         } else if (q.equals("3")) {
             MenuMatriksInverse();
         } else{
-
+            MenuCramer();
         }
 
     }
@@ -159,5 +159,34 @@ public class SistemPersamaanLinier {
 
         Inverse i = new Inverse();
         i.InverseSPL(M);
+    }
+
+    private static void MenuCramer(){
+        System.out.println("Sistem Persamaan Linear - Metode matriks balikan");
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("Pilih metode input:");
+        System.out.println("1. Input dari keyboard");
+        System.out.println("2. Input dari file txt");
+
+
+        Scanner input = new Scanner(System.in);
+        String q;
+        do {
+            System.out.print("Pilihan anda: ");
+            q = input.nextLine();
+            if (!(q.equals("1") || q.equals("2"))) {
+                System.out.println("ERROR: Input tidak valid");
+            }
+        } while (!(q.equals("1") || q.equals("2")));
+        Matrix M=new Matrix(0,0);
+        if (q.equals("1")) {    
+            M.bacaMatriks();
+            
+        } else{
+            M = Matrix.Create_FromTxt(); 
+        }
+
+        Cramer c = new Cramer();
+        c.CramerSPL(M);
     }
 }
