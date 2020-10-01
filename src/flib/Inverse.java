@@ -88,7 +88,8 @@ public class Inverse {
                 Determinant X = new Determinant();
                 sign = Math.pow(-1, i + j);
 
-                Det = X.GetDeterminant(minor);
+                X.OBE(minor);
+                Det = X.GetDeterminant();
                 CoFactorMatrix.SetElement(i, j, Det * sign);
 
             }
@@ -114,7 +115,8 @@ public class Inverse {
         Matrix InverseAdjointMatrix;
         double Det;
         Determinant X = new Determinant();
-        Det = X.GetDeterminant(matrix);
+        X.OBE(matrix);
+        Det = X.GetDeterminant();
         InverseAdjointMatrix = Transpose(MakeCoFactorMatrix(matrix));
 
         for (int i = 0; i <= matrix.GetLastRowID(); i++) {
@@ -132,7 +134,8 @@ public class Inverse {
         double Det;
 
         Determinant X = new Determinant();
-        Det = X.GetDeterminant(matrix);
+        X.OBE(matrix);
+        Det = X.GetDeterminant();
         if (Det == 0) {
             System.out.println("Matriks Singular");
         } else {
@@ -147,7 +150,7 @@ public class Inverse {
         double[] SPL = new double[100];
         double sum;
         Matrix InverseMatrix;
-        int j, k, i;
+        int j, i;
         j = matrix.GetLastColID();
         for (i = 0; i <= matrix.GetLastRowID(); i++) {
             T[i] = matrix.GetElement(i, j);

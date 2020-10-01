@@ -2,11 +2,9 @@ package flib;
 
 public class Determinant {
     double DET;
-
     public Determinant() {
         this.DET = 0;
     }
-
     public void OBE(Matrix matrix) {
         if (matrix.GetROWCOUNT() == matrix.GetCOLCOUNT()) {
             Matrix upperTriangle = new Matrix(matrix.GetROWCOUNT(), matrix.GetCOLCOUNT());
@@ -37,8 +35,7 @@ public class Determinant {
             int i2 = matrix.GetLastRowID();
             int j1 = matrix.GetFirstColID();
             int j2 = matrix.GetLastColID();
-            recurse = (matrix.GetElement(i1, j1) * matrix.GetElement(i2, j2))
-                    - (matrix.GetElement(i2, j1) * matrix.GetElement(i1, j2));
+            recurse = (matrix.GetElement(i1, j1) * matrix.GetElement(i2, j2)) - (matrix.GetElement(i2, j1) * matrix.GetElement(i1, j2));
         } else {
             int jFinal = matrix.GetLastColID();
             int i = matrix.GetFirstRowID();
@@ -66,8 +63,9 @@ public class Determinant {
         System.out.printf("%f", this.DET);
     }
 
-    public double GetDeterminant(Matrix matrix) {
-        this.DET = Kofaktor_Calculator(matrix);
+    public double GetDeterminant() {
         return this.DET;
     }
+
+
 }

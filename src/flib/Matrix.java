@@ -383,22 +383,26 @@ public class Matrix {
         this.COLCOUNT = minor.GetCOLCOUNT();
     }
 
-    public void bacaMatriks() {
+    public static Matrix Create_FromUserInput() {
         int row, col;
-        // menerima input pengguna untuk mengisi array 2d isi
+        // menerima input pengguna untuk mengisi Matrix
         Scanner scanner = new Scanner(System.in);
-        System.out.println("row:");
+        System.out.print("Banyak baris matriks: ");
         row = scanner.nextInt();
-        System.out.println("col:");
+        System.out.println();
+        System.out.print("Banyak kolom matriks: ");
         col = scanner.nextInt();
-        ROWCOUNT = row;
-        COLCOUNT = col;
-        for (int i = 0; i <= GetLastRowID(); i++) {
-            for (int j = 0; j <= GetLastColID(); j++) {
-                DF[i][j] = scanner.nextDouble();
+        System.out.println();
+        Matrix matrix = new Matrix(row, col);
+        int iFinal = matrix.GetLastRowID();
+        int jFinal = matrix.GetLastColID();
+        for (int i = matrix.GetFirstRowID(); i <= iFinal; i++) {
+            for (int j = matrix.GetFirstColID(); j <= jFinal; j++) {
+                matrix.DF[i][j] = scanner.nextDouble();
             }
         }
-
+        scanner.close();
+        return matrix;
     }
 
      /* Read From txt File */
@@ -507,7 +511,6 @@ public class Matrix {
         /* Make Hilbert Augmented Matrix for test case purpose */
         public static Matrix makeHilbertAugmented(int N){
             Matrix hilbertAugmented = new Matrix(N,N+1);
-            double x;
             for (int i=0;i<N;i++){
                 for (int j=0;j<=N;j++){
                     if (j == N){

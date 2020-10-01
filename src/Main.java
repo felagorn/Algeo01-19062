@@ -23,12 +23,12 @@ public class Main {
             }
         } while (!(q.equals("1") || q.equals("2") || q.equals("3") || q.equals("4") || q.equals("5") || q.equals("6")));
         
+        
         if (q.equals("1")) {
             SistemPersamaanLinier.Menu();
 
-            
         } else if (q.equals("2")) {
-
+            Determinan.Menu();
         } else if (q.equals("3")) {
 
         } else if (q.equals("4")) {

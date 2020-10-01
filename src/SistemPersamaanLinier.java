@@ -52,9 +52,10 @@ public class SistemPersamaanLinier {
                 System.out.println("ERROR: Input tidak valid");
             }
         } while (!(q.equals("1") || q.equals("2")));
+        
         Matrix M=new Matrix(0,0);
         if (q.equals("1")) {    
-            M.bacaMatriks();
+            M = Matrix.Create_FromUserInput();
             
         } else{
             M = Matrix.Create_FromTxt(); 
@@ -110,10 +111,10 @@ public class SistemPersamaanLinier {
                 System.out.println("ERROR: Input tidak valid");
             }
         } while (!(q.equals("1") || q.equals("2")));
+       
         Matrix M=new Matrix(0,0);
         if (q.equals("1")) {    
-            M.bacaMatriks();
-            
+            M = Matrix.Create_FromUserInput();
 
             
         } else{
@@ -149,9 +150,10 @@ public class SistemPersamaanLinier {
                 System.out.println("ERROR: Input tidak valid");
             }
         } while (!(q.equals("1") || q.equals("2")));
+       
         Matrix M=new Matrix(0,0);
         if (q.equals("1")) {    
-            M.bacaMatriks();
+            M = Matrix.Create_FromUserInput();
             
         } else{
             M = Matrix.Create_FromTxt(); 
@@ -178,9 +180,10 @@ public class SistemPersamaanLinier {
                 System.out.println("ERROR: Input tidak valid");
             }
         } while (!(q.equals("1") || q.equals("2")));
+    
         Matrix M=new Matrix(0,0);
         if (q.equals("1")) {    
-            M.bacaMatriks();
+            M = Matrix.Create_FromUserInput();
             
         } else{
             M = Matrix.Create_FromTxt(); 
