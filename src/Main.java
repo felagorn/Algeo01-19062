@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Main {
 
     private static void MainMenu() {
-  
+        
         System.out.println("MENU");
         System.out.println("1. Sistem Persamaan Linier");
         System.out.println("2. Determinan");

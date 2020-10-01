@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Determinan {
 
     public static void Menu() {
+        System.out.println("----------------------------------------------------------------");
         System.out.println("DETERMINAN");
         System.out.println("Pilih metode:");
         System.out.println("1. Metode Reduksi Baris");
@@ -26,10 +27,11 @@ public class Determinan {
     }
 
     private static void MenuReduksiBaris(){
-        System.out.println("DETERMINAN");
+        System.out.println("----------------------------------------------------------------");
         System.out.println("Pilih metode input:");
         System.out.println("1. Keyboard");
         System.out.println("2. File");
+        System.out.println("----------------------------------------------------------------");
         Scanner input = new Scanner(System.in);
         String q;
         do {
@@ -49,13 +51,15 @@ public class Determinan {
         Determinant determinanOBE = new Determinant();
         determinanOBE.OBE(matrix);
         System.out.printf("Determinan hasil OBE: %f\n", determinanOBE.GetDeterminant());
+        System.out.println("----------------------------------------------------------------");
     }
 
     private static void MenuKofaktor(){
-        System.out.println("DETERMINAN");
+        System.out.println("----------------------------------------------------------------");
         System.out.println("Pilih metode input:");
         System.out.println("1. Keyboard");
         System.out.println("2. File");
+        System.out.println("----------------------------------------------------------------");
         Scanner input = new Scanner(System.in);
         String q;
         do {
@@ -75,5 +79,6 @@ public class Determinan {
         Determinant determinanKofaktor = new Determinant();
         determinanKofaktor.Kofaktor(matrix);
         System.out.printf("Determinan hasil Kofaktor: %f", determinanKofaktor.GetDeterminant());
+        System.out.println("----------------------------------------------------------------");
     }
 }
