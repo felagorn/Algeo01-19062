@@ -29,17 +29,17 @@ public class Main {
         squarematrix.PrintMatrix();
         System.out.printf("\n\n");
 
-        // Determinant TEST
-        Determinant obeDeterminant = new Determinant();
-        obeDeterminant.OBE(squarematrix);
-        System.out.print("Determinan OBE: ");
-        obeDeterminant.PrintDeterminant();
-        System.out.println();
-        Determinant cofactorDeterminant = new Determinant();
-        cofactorDeterminant.Kofaktor(squarematrix);
-        System.out.print("Determinan Kofaktor: ");
-        cofactorDeterminant.PrintDeterminant();
-        System.out.println();
+        // // Determinant TEST
+        // Determinant obeDeterminant = new Determinant();
+        // obeDeterminant.OBE(squarematrix);
+        // System.out.print("Determinan OBE: ");
+        // obeDeterminant.PrintDeterminant();
+        // System.out.println();
+        // Determinant cofactorDeterminant = new Determinant();
+        // cofactorDeterminant.Kofaktor(squarematrix);
+        // System.out.print("Determinan Kofaktor: ");
+        // cofactorDeterminant.PrintDeterminant();
+        // System.out.println();
 
         // // Inverse & Baca Matrix TEST
         // Matrix squarematrix2 = new Matrix(3, 3);
@@ -55,40 +55,46 @@ public class Main {
         // OBEInverse.PrintInverseOBE(squarematrix2);
         // System.out.println();
 
-        Matrix squarematrix3 = new Matrix(3, 3);
-        Inverse AdjointInverse = new Inverse();
-        squarematrix3.bacaMatriks();
-        // AdjointInverse.PrintInverseAdjoint(squarematrix3);
-        AdjointInverse.InverseSPL(squarematrix3);
+        // Matrix squarematrix3 = new Matrix(3, 3);
+        // Inverse AdjointInverse = new Inverse();
+        // squarematrix3.bacaMatriks();
+        // // AdjointInverse.PrintInverseAdjoint(squarematrix3);
+        // AdjointInverse.InverseSPL(squarematrix3);
 
-        //readFromTxt test
-        System.out.println("Coba readTxt:\n");
-        Matrix M1 = Matrix.readFromTxt("C:\\Users\\ASUS ROG GL503G\\Algeo01-19062\\test\\isi.txt");
-        M1.PrintMatrix();
-        System.out.println("\n");
+        // //readFromTxt test
+        // System.out.println("Coba readTxt:\n");
+        // Matrix M1 = Matrix.readFromTxt("C:\\Users\\ASUS ROG
+        // GL503G\\Algeo01-19062\\test\\isi.txt");
+        // M1.PrintMatrix();
+        // System.out.println("\n");
 
-        //Matriks Hilbert
-        System.out.println("Coba hilbert:\n");
-        Matrix M2 = Matrix.makeHilbertAugmented(6);
-        M2.PrintMatrix();;
-        System.out.println("\n");
+        // //Matriks Hilbert
+        // System.out.println("Coba hilbert:\n");
+        // Matrix M2 = Matrix.makeHilbertAugmented(6);
+        // M2.PrintMatrix();;
+        // System.out.println("\n");
 
-        //Interpolation test
-        System.out.println("Coba interpolasi:\n");
-        Matrix manual = new Matrix(3, 2);
-        manual.DF = new double[][] {    {8.0, 2.0794}, 
-                                        {9.0, 2.1972}, 
-                                        {9.5, 2.2513}};
-        manual.PrintMatrix();
-        System.out.println("\n");
-        
-        interpolation i = new interpolation();
-        Matrix interpolated = i.makeMatrixForInterpolation(manual);
-        interpolated.PrintMatrix();
-        System.out.println("\n");
-        double x = i.interpolationResult(manual, 9.2);
-        System.out.println("\n");
-        System.out.println(x);
-        System.out.println("\n");
+        // //Interpolation test
+        // System.out.println("Coba interpolasi:\n");
+        // Matrix manual = new Matrix(3, 2);
+        // manual.DF = new double[][] { {8.0, 2.0794},
+        // {9.0, 2.1972},
+        // {9.5, 2.2513}};
+        // manual.PrintMatrix();
+        // System.out.println("\n");
+
+        // interpolation i = new interpolation();
+        // Matrix interpolated = i.makeMatrixForInterpolation(manual);
+        // interpolated.PrintMatrix();
+        // System.out.println("\n");
+        // double x = i.interpolationResult(manual, 9.2);
+        // System.out.println("\n");
+        // System.out.println(x);
+        // System.out.println("\n");
+
+        // // Multiple Linear Regression Test
+        MultiRegression MulReg = new MultiRegression();
+        MulReg.ProsesReg();
+
     }
 }
