@@ -145,9 +145,9 @@ public class Matrix {
                         double value = scanValue.nextDouble();
                         arrayList2D.get(row).add(value);
                     }
-                    scanValue.close();
+                    
                 }
-                rowScanner.close();
+                
                 isValid = true;
             } catch (FileNotFoundException e) {
                 System.out.println("Error: File not Found");
@@ -598,4 +598,52 @@ public class Matrix {
         }  
     }
 
+    
+    public void bacaMatriks() {
+        int row, col;
+        // menerima input pengguna untuk mengisi array 2d isi
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("row:");
+        row = scanner.nextInt();
+        System.out.println("col:");
+        col = scanner.nextInt();
+        ROWCOUNT = row;
+        COLCOUNT = col;
+        for (int i = 0; i <= GetLastRowID(); i++) {
+            for (int j = 0; j <= GetLastColID(); j++) {
+                DF[i][j] = scanner.nextDouble();
+            }
+        }
+
+    }
+
+    public void addAllZeroColumn(){
+        //In case ROWCOUNT > COLCOUNT
+        for(int i=0; i<this.ROWCOUNT-this.COLCOUNT;i++){
+            for(int row=0;row<=this.ROWCOUNT;row++){
+                this.DF[row][this.COLCOUNT+i] = 0;
+            }
+        }
+        this.COLCOUNT = this.ROWCOUNT;
+    }
+
+    public void removeAllZeroRow(){
+        this.Convert_RowEchelon();
+        for(int row=0;row<=this.GetLastRowID();row++){
+            if(this.Row_IsAllZero(row)){
+                this.ROWCOUNT-=1;
+            }
+        }
+    }
+
+    public boolean checkMatrix(){
+        //Check only if when ROWCOUNT > COLCOUNT
+        this.addAllZeroColumn();
+        this.removeAllZeroRow();
+        if (this.ROWCOUNT > this.COLCOUNT){
+            return false;
+        }return true;
+    }
+
+    
 }
