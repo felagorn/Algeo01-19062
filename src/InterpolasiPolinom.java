@@ -28,21 +28,10 @@ public class InterpolasiPolinom {
         System.out.println("Polinom interpolasi P(x) berhasil dibuat!");
         System.out.println("Sekarang input x, dan P(x) akan ditampilkan. ");
         boolean isContinue = true;
-        while (isContinue) {
             System.out.print("x = ");
             double x = input.nextDouble();
             double y = interpolasi.Interpolate(x);
             System.out.println("P(x) = " + y);
-            do {
-                System.out.println("Apakah ada lagi nilai P(x) yang mau dicari? [Y/N]");
-                q = input.nextLine();
-                if (!((q.equals("Y")) || (q.equals("y")) || (q.equals("N")) || (q.equals("n")))) {
-                    System.out.println("ERROR: Input tidak valid");
-                } else if ((q.equals("N")) || (q.equals("n"))) {
-                    isContinue = false;
-                }
-            } while (!((q.equals("Y")) || (q.equals("y")) || (q.equals("N")) || (q.equals("n"))));
-        }
-        //incomplete
+
     }
 }
