@@ -31,7 +31,7 @@ public class Main {
             Determinan.Menu();
 
         } else if (q.equals("3")) {
-
+            MatriksBalikan.Menu();
         } else if (q.equals("4")) {
             InterpolasiPolinom.Menu();
 

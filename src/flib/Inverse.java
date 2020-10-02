@@ -7,7 +7,7 @@ public class Inverse {
     };
 
     private Matrix Create_AugmentedIdentity(Matrix M) {
-        Matrix augmentedIdentity = new Matrix((2 * M.GetROWCOUNT()), (2 * M.GetCOLCOUNT()));
+        Matrix augmentedIdentity = new Matrix(M.GetROWCOUNT(), (2 * M.GetCOLCOUNT()));
         augmentedIdentity.PasteDFFrom(M);
         int iFinal = M.GetLastRowID();
         int jFinal = M.GetLastColID();

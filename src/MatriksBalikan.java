@@ -16,7 +16,6 @@ public class MatriksBalikan {
                 System.out.println("ERROR: Input tidak valid");
             }
         } while (!(q.equals("1") || q.equals("2")));
-        input.close();
         Matrix matrix;
         if (q.equals("1")) {
             matrix = Matrix.Create_FromUserInput();
