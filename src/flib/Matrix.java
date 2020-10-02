@@ -336,7 +336,6 @@ public class Matrix {
                     && (this.GetLeadingValue_Row_ColID(i) == this.GetLeadingValue_Row_ColID(currentRow))) {
                 this.OBE_SumRow(i, currentRow, (-this.GetElement(i, j)));
                 if (this.GetElement(i, j) < 0) {
-                    System.out.println("Ini jalan");
                     this.OBE_SumRow(i, i, (-this.GetElement(i, j)));
 
                 }
