@@ -25,17 +25,22 @@ public class Main {
         
         
         if (q.equals("1")) {
+            System.out.println();
             SistemPersamaanLinier.Menu();
 
         } else if (q.equals("2")) {
+            System.out.println();
             Determinan.Menu();
 
         } else if (q.equals("3")) {
+            System.out.println();
             MatriksBalikan.Menu();
         } else if (q.equals("4")) {
+            System.out.println();
             InterpolasiPolinom.Menu();
 
         } else if (q.equals("5")) {
+            System.out.println();
             RegresiLinierBerganda.Menu();
 
         } else {

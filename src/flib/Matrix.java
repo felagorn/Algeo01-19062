@@ -112,12 +112,12 @@ public class Matrix {
                 matrix.DF[i][j] = scanner.nextDouble();
             }
         }
-        scanner.close();
         return matrix;
     }
 
-     /* Read From txt File */
-     public static Matrix Create_FromTxt() { 
+
+    /* Read From txt File */
+    public static Matrix Create_FromTxt() { 
         Matrix M;
         ArrayList<ArrayList<Double>> arrayList2D = new ArrayList<ArrayList<Double>>();
         int row = -1;
@@ -127,7 +127,6 @@ public class Matrix {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Path lengkap dari file .txt matriks: ");
                 String path = input.nextLine();
-                input.close();
                 File f = new File(path);
                 Scanner rowScanner = new Scanner(f);
                 row = -1;
@@ -141,12 +140,7 @@ public class Matrix {
                         double value = scanValue.nextDouble();
                         arrayList2D.get(row).add(value);
                     }
-                    scanValue.close();
-                    
                 }
-                rowScanner.close();
-                
-                
                 isValid = true;
             } catch (FileNotFoundException e) {
                 System.out.println("Error: File not Found");
