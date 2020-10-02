@@ -25,7 +25,24 @@ public class InterpolasiPolinom {
             listOfCoordinates = Matrix.Create_FromTxt();
         }
         Interpolation interpolasi = new Interpolation(listOfCoordinates);
-        interpolasi.Interpolate(9.2);
+        System.out.println("Polinom interpolasi P(x) berhasil dibuat!");
+        System.out.println("Sekarang input x, dan P(x) akan ditampilkan. ");
+        boolean isContinue = true;
+        while (isContinue) {
+            System.out.print("x = ");
+            double x = input.nextDouble();
+            double y = interpolasi.Interpolate(x);
+            System.out.println("P(x) = " + y);
+            do {
+                System.out.print("Apakah ada lagi nilai P(x) yang mau dicari? [Y/N]");
+                q = input.nextLine();
+                if (!((q == "Y") || (q == "N") || (q == "y") || (q == "n"))) {
+                    System.out.println("ERROR: Input tidak valid");
+                } else if ((q == "N") || (q == "n")) {
+                    isContinue = false;
+                }
+            } while (!(q.equals("1") || q.equals("2")));
+        }
         //incomplete
     }
 }
