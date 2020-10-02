@@ -5,9 +5,9 @@ public class Cramer {
     };
 
     public void CramerSPL(Matrix matrix) {
-        double[] T = new double[100];
-        double[] SPL = new double[100];
-        double sum, DetMatrix, DetCramer;
+        double[] T = new double[matrix.GetROWCOUNT()];
+        double[] SPL = new double[matrix.GetCOLCOUNT() - 1];
+        double DetMatrix, DetCramer;
 
         int j, k, i;
         j = matrix.GetLastColID();
@@ -17,7 +17,8 @@ public class Cramer {
         matrix.COLCOUNT -= 1;
 
         Determinant X = new Determinant();
-        DetMatrix = X.GetDeterminant(matrix);
+        X.Kofaktor(matrix);
+        DetMatrix = X.GetDeterminant();
         Matrix temp = new Matrix((matrix.GetROWCOUNT()), (matrix.GetCOLCOUNT()));
         temp.PasteDFFrom(matrix);
         for (j = 0; j <= temp.GetLastColID(); j++) {
@@ -25,15 +26,16 @@ public class Cramer {
                 temp.SetElement(i, j, T[i]);
 
             }
-            DetCramer = X.GetDeterminant(temp);
+            X.Kofaktor(temp);
+            DetCramer = X.GetDeterminant();
             SPL[j] = DetCramer;
             temp.PasteDFFrom(matrix);
 
         }
-        System.out.println("Here");
-        for (int e = 0; e < j; e++) {
+
+        for (int e = 0; e <=  temp.GetLastColID(); e++) {
             SPL[e] = SPL[e] / DetMatrix;
-            System.out.println(SPL[e]);
+            System.out.println("x"+(e+1)+": "+SPL[e]);
         }
 
     }

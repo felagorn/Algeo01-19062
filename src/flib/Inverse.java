@@ -1,153 +1,145 @@
 package flib;
 
-import java.lang.Math;
-
 public class Inverse {
+    public Matrix MATRIX;
 
     public Inverse() {
     };
 
-    public void makeAugmentedIdentity(Matrix matrix) {
-
-        for (int i = 0; i <= matrix.GetLastRowID(); i++) {
-            for (int j = 0; j <= matrix.GetLastColID(); j++) {
+    private Matrix Create_AugmentedIdentity(Matrix M) {
+        Matrix augmentedIdentity = new Matrix(M.GetROWCOUNT(), (2 * M.GetCOLCOUNT()));
+        augmentedIdentity.PasteDFFrom(M);
+        int iFinal = M.GetLastRowID();
+        int jFinal = M.GetLastColID();
+        for (int i = M.GetFirstRowID(); i <= iFinal; i++) {
+            for (int j = M.GetFirstColID(); j <= jFinal; j++) {
                 if (i == j) {
-                    matrix.SetElement(i, j + matrix.COLCOUNT, 1);
+                    augmentedIdentity.SetElement(i, j + M.GetCOLCOUNT(), 1);
                 } else {
-                    matrix.SetElement(i, j + matrix.COLCOUNT, 0);
+                    augmentedIdentity.SetElement(i, j + M.GetCOLCOUNT(), 0);
                 }
-
             }
-
         }
-
-        matrix.COLCOUNT = matrix.COLCOUNT * 2;
+        return augmentedIdentity;
     }
 
-    public void InverseOBE(Matrix matrix) {
-        matrix.Convert_ReducedRowEchelon();
-    }
-
-    public boolean IsInverseOBEValid(Matrix matrix) {
-        int i, j, zero_sum;
-        boolean inverse;
-        inverse = true;
-        i = matrix.GetFirstRowID();
-        j = matrix.GetFirstColID();
-        zero_sum = 0;
-
-        while (i <= matrix.GetLastRowID() && inverse) {
-
-            while (j < matrix.COLCOUNT / 2 && inverse) {
-                if (matrix.GetElement(i, j) == 0) {
-                    zero_sum += 1;
+    public void GaussJordan(Matrix M) {
+        if (M.ROWCOUNT == M.COLCOUNT) {
+            Matrix augmentedIdentity = Create_AugmentedIdentity(M);
+            int jInitial = augmentedIdentity.GetFirstColID();
+            int jFinal = (augmentedIdentity.COLCOUNT / 2) - 1;
+            int iInitial = augmentedIdentity.GetFirstRowID();
+            int iFinal = augmentedIdentity.GetLastRowID();
+            int currentRow;
+            double scalek;
+            double sumk;
+            for (int j = jInitial; j <= jFinal; j += 1) {
+                currentRow = iInitial + (j - jInitial);
+                scalek = 1 / augmentedIdentity.GetElement(currentRow, j);
+                augmentedIdentity.OBE_ScaleRow(currentRow, scalek);
+                for (int i = currentRow + 1; i <= iFinal; i += 1) {
+                    sumk = - (augmentedIdentity.GetElement(i, j));
+                    augmentedIdentity.OBE_SumRow(i, currentRow, sumk);
                 }
-                if (zero_sum == matrix.COLCOUNT / 2) {
-                    inverse = false;
-                }
-                j += 1;
-
             }
-            j = 0;
-            zero_sum = 0;
-            i += 1;
-        }
-
-        return inverse;
-    }
-
-    public void PrintInverseOBE(Matrix matrix) {
-        if (IsInverseOBEValid(matrix)) {
-            int iFinal = matrix.GetLastRowID();
-            for (int i = matrix.GetFirstRowID(); i <= iFinal; i += 1) {
-                int jFinal = matrix.GetLastColID();
-                for (int j = matrix.GetFirstColID() + matrix.COLCOUNT / 2; j <= jFinal; j += 1) {
-                    System.out.printf("%10.3f", matrix.GetElement(i, j));
+            for (int j = jInitial; j <= jFinal; j += 1) {
+                currentRow = iInitial + (j - jInitial);
+                for (int i = currentRow - 1; i >= iInitial; i -= 1) {
+                    sumk = - (augmentedIdentity.GetElement(i, j));
+                    augmentedIdentity.OBE_SumRow(i, currentRow, sumk);
                 }
-                if (i != iFinal) {
-                    System.out.println();
+            }
+            boolean isValid = true;
+            int i = iInitial;
+            int j;
+            while ((i <= iFinal) && (isValid)) {
+                j = jInitial;
+                while ((j <= jFinal) && (isValid)) {
+                    if (i == j) {
+                        if (augmentedIdentity.GetElement(i, j) != 1) {
+                            isValid = false;
+                        }
+                    } else {
+                        if (augmentedIdentity.GetElement(i, j) != 0) {
+                            isValid = false;
+                        }
+                    }
+                    j += 1;
+                }
+                i += 1;
+            }
+            if (!(isValid)) {
+                System.out.println("Matriks Singular (tidak mempunyai balikan)");
+            } else {
+                int j0Final;
+                int j1Final;
+                this.MATRIX = new Matrix(M.GetROWCOUNT(), M.GetCOLCOUNT());
+                for (i = iInitial; i <= iFinal; i += 1) {
+                    j0Final = M.GetLastColID();
+                    j1Final = augmentedIdentity.GetLastColID();
+                    for (int j0 = M.GetFirstColID(), j1 = jFinal + 1; ((j0 <= j0Final) && (j1 <= j1Final)); j0 += 1, j1 += 1) {
+                        this.MATRIX.SetElement(i, j0, augmentedIdentity.GetElement(i, j1));
+                    }
                 }
             }
         } else {
-            System.out.println("Matriks Singular");
+            System.out.println("Matriks tidak memiliki balikan (banyak baris ≠ banyak kolom)");
         }
-
     }
 
-    public Matrix MakeCoFactorMatrix(Matrix matrix) {
-
-        Matrix CoFactorMatrix = new Matrix((matrix.GetROWCOUNT()), (matrix.GetCOLCOUNT()));
-        double Det, sign;
-        for (int i = 0; i <= matrix.GetLastRowID(); i++) {
-
-            for (int j = 0; j <= matrix.GetLastColID(); j++) {
-                Matrix minor = new Matrix((matrix.GetROWCOUNT()), (matrix.GetCOLCOUNT()));
-                minor.PasteDFFrom(matrix);
-                minor.Convert_Minor(i, j);
-
-                Determinant X = new Determinant();
-                sign = Math.pow(-1, i + j);
-
-                Det = X.GetDeterminant(minor);
-                CoFactorMatrix.SetElement(i, j, Det * sign);
-
+    public void Adjoint(Matrix M) {
+        if (M.ROWCOUNT == M.COLCOUNT) {
+            Determinant Det = new Determinant();
+            Det.OBE(M);
+            M.Convert_CoFactorMatrix();
+            this.MATRIX = new Matrix(M.GetCOLCOUNT(), M.GetROWCOUNT());
+            this.MATRIX = M.Transpose();
+            int iFinal = this.MATRIX.GetLastRowID();
+            int jFinal = this.MATRIX.GetLastColID();
+            try {
+                for (int i = 0; i <= iFinal; i++) {
+                    for (int j = 0; j <= jFinal; j++) {
+                        this.MATRIX.SetElement(i, j, this.MATRIX.GetElement(i, j) / Det.GetDeterminant());
+    
+                    }
+                }
+            } catch (ArithmeticException e) {
+                System.out.println("Matriks Singular (tidak mempunyai balikan)");
             }
-
-        }
-        return CoFactorMatrix;
-    }
-
-    public Matrix Transpose(Matrix matrix) {
-
-        Matrix TransposeMatrix = new Matrix((matrix.GetROWCOUNT()), (matrix.GetCOLCOUNT()));
-        for (int i = 0; i <= matrix.GetLastRowID(); i++) {
-            for (int j = 0; j <= matrix.GetLastColID(); j++) {
-                TransposeMatrix.SetElement(i, j, matrix.GetElement(j, i));
-
-            }
-
-        }
-        return TransposeMatrix;
-    }
-
-    public Matrix InverseAdjoint(Matrix matrix) {
-        Matrix InverseAdjointMatrix;
-        double Det;
-        Determinant X = new Determinant();
-        Det = X.GetDeterminant(matrix);
-        InverseAdjointMatrix = Transpose(MakeCoFactorMatrix(matrix));
-
-        for (int i = 0; i <= matrix.GetLastRowID(); i++) {
-            for (int j = 0; j <= matrix.GetLastColID(); j++) {
-                InverseAdjointMatrix.SetElement(i, j, InverseAdjointMatrix.GetElement(i, j) / Det);
-
-            }
-
-        }
-        return InverseAdjointMatrix;
-    }
-
-    public void PrintInverseAdjoint(Matrix matrix) {
-        Matrix InverseAdjointMatrix;
-        double Det;
-
-        Determinant X = new Determinant();
-        Det = X.GetDeterminant(matrix);
-        if (Det == 0) {
-            System.out.println("Matriks Singular");
         } else {
-            InverseAdjointMatrix = InverseAdjoint(matrix);
-            InverseAdjointMatrix.PrintMatrix();
+            System.out.println("Matriks tidak memiliki balikan (banyak baris ≠ banyak kolom)");
         }
-
     }
 
     public void InverseSPL(Matrix matrix) {
+        Matrix A = new Matrix(matrix.GetROWCOUNT(), (matrix.GetCOLCOUNT() - 1));
+        int iFinal = A.GetLastRowID();
+        int jFinal = A.GetLastColID();
+        for (int i = A.GetFirstRowID(); i <= iFinal; i += 1) {
+            for (int j = A.GetFirstColID(); j <= jFinal; j += 1) {
+                A.SetElement(i, j, matrix.GetElement(i, j));
+            }
+        }
+        Inverse inverse = new Inverse();
+        inverse.GaussJordan(A);
+        int x;
+        int y = matrix.GetLastColID();
+        for (int i = A.GetFirstRowID(); i <= iFinal; i += 1) {
+            x = 0;
+            for (int j = A.GetFirstColID(); j <= jFinal; j += 1) {
+                x += A.GetElement(i, j) * matrix.GetElement(i, y);
+            }
+            System.out.println("x" + (i + 1) + ": " + x);
+        }
+    }
+    
+    
+    /*public void InverseSPL(Matrix matrix) {
         double[] T = new double[100];
         double[] SPL = new double[100];
         double sum;
         Matrix InverseMatrix;
-        int j, k, i;
+        int j, i;
         j = matrix.GetLastColID();
         for (i = 0; i <= matrix.GetLastRowID(); i++) {
             T[i] = matrix.GetElement(i, j);
@@ -163,8 +155,8 @@ public class Inverse {
             SPL[z] = sum;
         }
         for (int e = 0; e < i; e++) {
-            System.out.println(SPL[e]);
+            System.out.println("x"+(e+1)+": "+SPL[e]);
         }
 
-    }
+    }*/
 }
