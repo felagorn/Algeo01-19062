@@ -5,8 +5,8 @@ public class Cramer {
     };
 
     public void CramerSPL(Matrix matrix) {
-        double[] T = new double[100];
-        double[] SPL = new double[100];
+        double[] T = new double[matrix.GetROWCOUNT()];
+        double[] SPL = new double[matrix.GetCOLCOUNT() - 1];
         double DetMatrix, DetCramer;
 
         int j, k, i;
