@@ -33,15 +33,16 @@ public class InterpolasiPolinom {
             double x = input.nextDouble();
             double y = interpolasi.Interpolate(x);
             System.out.println("P(x) = " + y);
+            q = input.nextLine();
             do {
-                System.out.println("Apakah ada lagi nilai P(x) yang mau dicari? [Y/N]");
+                System.out.print("Apakah ada lagi nilai P(x) yang mau dicari? [Y/N]");
                 q = input.nextLine();
                 if (!((q == "Y") || (q == "N") || (q == "y") || (q == "n"))) {
                     System.out.println("ERROR: Input tidak valid");
                 } else if ((q == "N") || (q == "n")) {
                     isContinue = false;
                 }
-            } while (!((q == "Y") || (q == "N") || (q == "y") || (q == "n")));
+            } while (!(q.equals("1") || q.equals("2")));
         }
         //incomplete
     }
