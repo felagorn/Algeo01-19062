@@ -78,7 +78,7 @@ public class Determinan {
         }
         Determinant determinanKofaktor = new Determinant();
         determinanKofaktor.Kofaktor(matrix);
-        System.out.printf("Determinan hasil Kofaktor: %f", determinanKofaktor.GetDeterminant());
+        System.out.printf("Determinan hasil Kofaktor: %f\n", determinanKofaktor.GetDeterminant());
         System.out.println("----------------------------------------------------------------");
     }
 }

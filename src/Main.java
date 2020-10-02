@@ -43,9 +43,8 @@ public class Main {
             System.out.println();
             RegresiLinierBerganda.Menu();
 
-        } else {
-            System.exit(0);
         }
+        System.exit(0);
     }
 
     public static void main(String[] args) {
