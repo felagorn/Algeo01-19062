@@ -31,4 +31,6 @@ Pilih metode input:
 
 Pada input dari keyboard, pengguna akan mengisi banyaknya row dan column matrix, lalu mengisi elemen per baris dari atas.
 
-Jika dipilih 2, akan keluar menu lanjutan untuk 
+ika dipilih 2, akan keluar menu lanjutan untuk memilih metode menemukan determinan, begitu juga dengan pilihan 3.
+
+pada pilihan 4 masukan harus berupa matriks dengan 2 kolom, sehingga dapat dinyatakan sebagai titik.
