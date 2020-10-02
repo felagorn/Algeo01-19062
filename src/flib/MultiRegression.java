@@ -41,10 +41,10 @@ public class MultiRegression {
 
         // input nilai x
         System.out.println("Masukan Data X:");
-        for (int i = 0; i <= this.x.GetLastRowID(); i++) {
-            for (int j = 0; j <= this.x.GetLastColID(); j++) {
-                System.out.printf("X[%d][%d] = ", i + 1, j + 1);
-                this.x.DF[i][j] = scanner.nextDouble();
+        for (int i = 0; i <= this.x.GetLastColID(); i++) {
+            for (int j = 0; j <= this.x.GetLastRowID(); j++) {
+                System.out.printf("X[%d][%d] = ", j + 1, i + 1);
+                this.x.DF[j][i] = scanner.nextDouble();
             }
             System.out.println("");
         }
@@ -74,6 +74,26 @@ public class MultiRegression {
         sum = 0;
         for (int i = 0; i <= this.x.GetLastRowID(); i++) {
             sum = sum + this.x.GetElement(i, j - 1);
+        }
+        return sum;
+
+    }
+
+    public double Sum2Col(int j1, int j2) {
+        double sum;
+        sum = 0;
+        for (int i = 0; i <= this.x.GetLastRowID(); i++) {
+            sum = sum + this.x.GetElement(i, j1 - 1) * this.x.GetElement(i, j2 - 1);
+        }
+        return sum;
+
+    }
+
+    public double Sum2Y(int j) {
+        double sum;
+        sum = 0;
+        for (int i = 0; i < this.n; i++) {
+            sum = sum + this.y[i] * this.x.GetElement(i, j - 1);
         }
         return sum;
 
@@ -112,8 +132,14 @@ public class MultiRegression {
         this.reg.DF[0][0] = this.n;
         for (int i = 1; i <= this.reg.GetLastRowID(); i++) {
             for (int j = 0; j <= this.reg.GetLastColID(); j++) {
+                if (j == 0) {
+                    this.reg.DF[i][j] = this.reg.DF[i][j] * SumCol(i);
+                } else if (j == this.reg.GetLastColID()) {
+                    this.reg.DF[i][j] = Sum2Y(i);
 
-                this.reg.DF[i][j] = this.reg.DF[i][j] * SumCol(i);
+                } else {
+                    this.reg.DF[i][j] = Sum2Col(i, j);
+                }
 
             }
 
@@ -122,6 +148,7 @@ public class MultiRegression {
         System.out.println("Persamaan Linear Hasil Normal Estimation Equation ");
         System.out.println("dalam bentuk matriks augmented :");
         this.reg.PrintMatrix();
+
     }
 
     public Matrix SolveReg() {
