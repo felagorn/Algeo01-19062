@@ -15,10 +15,12 @@ public class MultiRegression {
 
     public MultiRegression() {
         this.x = new Matrix(0, 0);
+        this.x.DF = new double[200][200];
         this.reg = new Matrix(0, 0);
-        this.y = new double[100];
-        this.beta = new double[100];
-        this.estimation = new double[100];
+        this.reg.DF = new double[200][200];
+        this.y = new double[200];
+        this.beta = new double[200];
+        this.estimation = new double[200];
         this.n = 0;
         this.k = 0;
 
@@ -28,36 +30,42 @@ public class MultiRegression {
 
         Scanner scanner = new Scanner(System.in);
         // Mencari nilai n dan k
-        System.out.println("n:");
+        System.out.println("Masukan Data");
+        System.out.print("Masukan nilai n = ");
         this.n = scanner.nextInt();
-        System.out.println("k:");
+        System.out.print("Masukan nilai k = ");
         this.k = scanner.nextInt();
+        System.out.println("");
         this.x.ROWCOUNT = this.n;
         this.x.COLCOUNT = this.k;
 
         // input nilai x
-        System.out.println("X:");
+        System.out.println("Masukan Data X:");
         for (int i = 0; i <= this.x.GetLastRowID(); i++) {
             for (int j = 0; j <= this.x.GetLastColID(); j++) {
+                System.out.printf("X[%d][%d] = ", i + 1, j + 1);
                 this.x.DF[i][j] = scanner.nextDouble();
             }
+            System.out.println("");
         }
-        this.x.PrintMatrix();
 
         // input nilai y
-        System.out.println("");
-        System.out.println("Y:");
+        System.out.println("Masukan Data  Y:");
         for (int i = 0; i < this.n; i++) {
+            System.out.printf("Y[%d] = ", i + 1);
             this.y[i] = scanner.nextDouble();
 
         }
+        System.out.println("");
 
         // input nilai xk(estimasi)
-        System.out.println("Xk:");
+        System.out.println("Masukan Nilai Yang Akan Ditaksir Xk:");
         for (int i = 0; i < this.k; i++) {
+            System.out.printf("Xk[%d] = ", i + 1);
             this.estimation[i] = scanner.nextDouble();
 
         }
+        System.out.println("");
 
     }
 
@@ -100,8 +108,7 @@ public class MultiRegression {
             }
 
         }
-        System.out.println("MakeReg1:");
-        this.reg.PrintMatrix();
+
         this.reg.DF[0][0] = this.n;
         for (int i = 1; i <= this.reg.GetLastRowID(); i++) {
             for (int j = 0; j <= this.reg.GetLastColID(); j++) {
@@ -111,8 +118,9 @@ public class MultiRegression {
             }
 
         }
-        System.out.println("");
-        System.out.println("MakeReg2:");
+
+        System.out.println("Persamaan Linear Hasil Normal Estimation Equation ");
+        System.out.println("dalam bentuk matriks augmented :");
         this.reg.PrintMatrix();
     }
 
@@ -120,9 +128,6 @@ public class MultiRegression {
         Matrix SPL = new Matrix(this.reg.ROWCOUNT, this.reg.COLCOUNT);
         SPL.PasteDFFrom(this.reg);
         SPL.Convert_ReducedRowEchelon();
-        System.out.println("");
-        System.out.println("SolveReg:");
-        SPL.PrintMatrix();
         return SPL;
 
     }
@@ -132,10 +137,11 @@ public class MultiRegression {
         int j;
         j = SPL.GetLastColID();
         System.out.println("");
-        System.out.println("Beta");
+        System.out.println("");
+        System.out.println("Didapati Beta:");
         for (int i = 0; i <= SPL.GetLastRowID(); i++) {
             this.beta[i] = SPL.GetElement(i, j);
-            System.out.println(this.beta[i]);
+            System.out.println("Beta[" + (i) + "] : " + this.beta[i]);
 
         }
 
@@ -157,9 +163,8 @@ public class MultiRegression {
         BacaReg();
         MakeReg();
         GetBeta();
-        // Untuk mendapatkan persamaan Regresi :
-        // this.reg.PrintMatrix();
-        System.out.println("Estimate");
+        System.out.println("");
+        System.out.print("Estimasi nilai y : ");
         System.out.println(Estimate());
 
     }

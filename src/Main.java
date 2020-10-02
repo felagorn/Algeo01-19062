@@ -36,6 +36,7 @@ public class Main {
             InterpolasiPolinom.Menu();
 
         } else if (q.equals("5")) {
+            RegresiLinierBerganda.Menu();
 
         } else {
             System.exit(0);
