@@ -370,8 +370,9 @@ public class Matrix {
             this.UpperTriangularSelectionSort();
             this.OBE_ScaleRow_LeadingOne(currentRow);
             int j = this.GetLeadingValue_Row_ColID(currentRow);
+            int jUndefined = this.GetCOLCOUNT();
             i = currentRow + 1;
-            while ((i <= finalRow) && (this.GetLeadingValue_Row_ColID(i) == this.GetLeadingValue_Row_ColID(currentRow))) {
+            while ((i <= finalRow) && (this.GetLeadingValue_Row_ColID(i) == this.GetLeadingValue_Row_ColID(currentRow)) && (j != jUndefined)) {
                 this.OBE_SumRow(i, currentRow, (- this.GetElement(i, j)));
                 i += 1;
             }
