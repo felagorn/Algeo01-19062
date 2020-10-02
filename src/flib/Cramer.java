@@ -33,7 +33,7 @@ public class Cramer {
 
         }
 
-        for (int e = 0; e <  temp.GetLastColID(); e++) {
+        for (int e = 0; e <=  temp.GetLastColID(); e++) {
             SPL[e] = SPL[e] / DetMatrix;
             System.out.println("x"+(e+1)+": "+SPL[e]);
         }
