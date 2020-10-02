@@ -27,11 +27,9 @@ public class InterpolasiPolinom {
         Interpolation interpolasi = new Interpolation(listOfCoordinates);
         System.out.println("Polinom interpolasi P(x) berhasil dibuat!");
         System.out.println("Sekarang input x, dan P(x) akan ditampilkan. ");
-        boolean isContinue = true;
-            System.out.print("x = ");
-            double x = input.nextDouble();
-            double y = interpolasi.Interpolate(x);
-            System.out.println("P(x) = " + y);
-
+        System.out.print("x = ");
+        double x = input.nextDouble();
+        double y = interpolasi.Interpolate(x);
+        System.out.println("P(x) = " + y);
     }
 }
